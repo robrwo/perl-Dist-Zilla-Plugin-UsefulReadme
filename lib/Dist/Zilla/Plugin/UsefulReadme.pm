@@ -1,0 +1,316 @@
+package Dist::Zilla::Plugin::UsefulReadme;
+
+use v5.20;
+
+use Moose;
+with qw(
+  Dist::Zilla::Role::AfterBuild
+  Dist::Zilla::Role::AfterRelease
+  Dist::Zilla::Role::FileGatherer
+  Dist::Zilla::Role::FilePruner
+  Dist::Zilla::Role::PPI
+  Dist::Zilla::Role::PrereqSource
+);
+
+use Dist::Zilla 6.003;
+use Dist::Zilla::File::InMemory;
+use Encode          qw( encode FB_CROAK );
+use List::Util 1.33 qw( first none pairs );
+use Module::Runtime qw( use_module );
+use MooseX::MungeHas;
+use Path::Tiny;
+use PPI::Token::Pod ();
+use Pod::Elemental;
+use Pod::Elemental::Transformer::Pod5;
+use Pod::Elemental::Transformer::Nester;
+use Pod::Elemental::Selectors;
+use Types::Common qw( ArrayRef CodeRef Enum NonEmptyStr StrMatch );
+
+use experimental qw( lexical_subs postderef signatures );
+
+use namespace::autoclean;
+
+has source => (
+    is      => 'lazy',
+    isa     => NonEmptyStr,
+    builder => sub($self) {
+        my $file = $self->zilla->main_module->name;
+        ( my $pod = $file ) =~ s/\.pm$/\.pod/;
+        return -e $pod ? $pod : $file;
+    }
+);
+
+sub _source_file($self) {
+    my $filename = $self->source;
+    return first { $_->name eq $filename } $self->zilla->files->@*;
+}
+
+has phase => (
+    is      => 'ro',
+    isa     => Enum [qw(build release)],
+    default => 'build',
+);
+
+has location => (
+    is      => 'ro',
+    isa     => Enum [qw(build root)],
+    default => 'build',
+);
+
+has sections => (
+    is      => 'ro',
+    isa     => ArrayRef [NonEmptyStr],
+    builder => sub($self) {
+        return [
+            map { s/_/ /gr }
+              qw(
+              name
+              version
+              synopsis
+              description
+              installation
+              requirements
+              support bugs source
+              author authors
+              contributor contributors
+              copyright license copyright_and_license
+              see_also
+              )
+        ];
+
+    }
+);
+
+my %CONFIG = (
+    pod => {
+        filename => 'README.pod',
+        parser   => sub($pod) { return $pod },
+    },
+    text => {
+        filename => 'README',
+        prereqs  => [
+            'Pod::Simple::Text' => '3.23',
+        ],
+    },
+    markdown => {
+        filename => 'README.mkdn',
+        prereqs  => [
+            'Pod::Markdown' => '3.000',
+        ],
+    },
+    gfm => {
+        filename => 'README.md',
+        prereqs  => [
+            'Pod::Markdown::Github' => 0,
+        ],
+    },
+);
+
+has type => (
+    is      => 'ro',
+    isa     => Enum [ keys %CONFIG ],
+    default => 'text',
+);
+
+has parser_class => (
+    is => 'lazy',
+    isa => StrMatch[ qr/^[^\W\d]\w*(?:::\w+)*\z/as ], # based on Params::Util _CLASS;
+    builder => sub($self) {
+       return $CONFIG{ $self->type }{prereqs}[0];
+    }
+);
+
+has parser => (
+    is      => 'lazy',
+    isa     => CodeRef,
+    builder => sub($self) {
+        my $prereqs = $CONFIG{ $self->type }{prereqs};
+        my $class = $self->parser_class;
+        if ($class ne $prereqs->[0]) {
+          use_module($class);
+        }
+        else {
+          foreach my $prereq ( pairs $prereqs->@* ) {
+            use_module( $prereq->[0], $prereq->[1] );
+          }
+        }
+        return sub($pod) {
+            my $parser = $class->new();
+            $parser->output_string( \my $content );
+            $parser->parse_characters(1);
+            $parser->parse_string_document($pod);
+            return $content;
+        }
+    }
+);
+
+has filename => (
+    is      => 'lazy',
+    isa     => NonEmptyStr,
+    builder => sub($self) {
+        return $CONFIG{ $self->type }{filename};
+    }
+);
+
+sub gather_files($self) {
+    my $filename = $self->filename;
+
+    if ( ( $self->location eq 'build' )
+        && none { $_->name eq $filename } $self->zilla->files->@* )
+    {
+        my $file = Dist::Zilla::File::InMemory->new(
+            {
+                content => '', # placeholder
+                name    => $self->filename,
+            }
+        );
+        $self->add_file($file);
+    }
+
+    return;
+}
+
+sub register_prereqs($self) {
+
+    if ( my $prereqs = $CONFIG{ $self->type }{prereqs} ) {
+        $self->zilla->register_prereqs(
+            {
+                phase => 'develop',
+                type  => 'requires',
+            },
+            $prereqs->@*
+        );
+    }
+
+    return;
+}
+
+sub prune_files($self) {
+
+    if ( $self->location eq "root"
+        && none { ref($self) eq ref($_) && $_->location ne $self->location && $_->filename eq $self->filename }
+        $self->zilla->plugins->@* )
+    {
+        for my $file ( $self->zilla->files->@* ) {
+            next unless $file->name eq $self->filename;
+            $self->log_debug( [ 'pruning %s', $file->name ] );
+            $self->zilla->prune_file($file);
+        }
+    }
+
+    return;
+}
+
+sub after_build( $self, $build ) {
+    # Updating the content of the file after the build has no effect, so we update the actual file on disk
+    if ( $self->phase eq 'build' ) {
+        my $dir = $self->location eq "build" ? $build->{build_root} : $self->zilla->root;
+        $self->_create_readme($dir);
+    }
+}
+
+sub after_release( $self, $filename ) {
+    $self->_create_readme( $self->zilla->root ) if $self->phase eq 'release';
+}
+
+sub _create_readme( $self, $dir ) {
+    my $file = path( $dir, $self->filename );
+    $file->spew_raw( $self->_generate_readme_content );
+}
+
+sub _generate_readme_content($self) {
+    my $config  = $CONFIG{ $self->type };
+    return $self->parser->( $self->_generate_raw_pod );
+}
+
+sub _generate_raw_pod($self) {
+
+    # We need to extract the POD from the source file
+
+    my $ppi   = $self->ppi_document_for_file( $self->_source_file );
+    my $pods  = $ppi->find('PPI::Token::Pod') or return;
+    my $bytes = PPI::Token::Pod->merge( $pods->@* );
+
+    # Then we need to parse the POD and transform that into a list of =head1 sections
+
+    my $doc = Pod::Elemental->read_string($bytes);
+    Pod::Elemental::Transformer::Pod5->new->transform_node($doc);
+
+    my $nester = Pod::Elemental::Transformer::Nester->new(
+        {
+            top_selector      => Pod::Elemental::Selectors::s_command('head1'),
+            content_selectors => [
+                Pod::Elemental::Selectors::s_flat(),
+                Pod::Elemental::Selectors::s_command( [qw(head2 head3 head4 over item back pod cut)] ),
+            ],
+        },
+    );
+    $nester->transform_node($doc);
+
+    my @sections = $doc->children->@*;
+
+    my sub _get_section($heading) {
+        if (
+            my $found =
+            first { Pod::Elemental::Selectors::s_command( head1 => $_ ) && fc( $_->content ) eq fc($heading) } @sections
+          )
+        {
+            return $found->as_pod_string;
+        }
+        else {
+            my $method = sprintf( '_generate_pod_for_%s', lc($heading) );
+            if ( $self->can($method) ) {
+                return $self->$method;
+            }
+        }
+        return;
+    }
+
+    return join( "", map { _get_section($_) } $self->sections->@* );
+}
+
+sub _generate_pod_for_version($self) {
+    my $version = $self->zilla->distmeta->{version};
+    return <<"POD_VERSION";
+=head1 VERSION
+
+version $version
+
+POD_VERSION
+}
+
+sub _generate_pod_for_requirements($self) {
+
+    my $runtime = $self->zilla->prereqs->as_string_hash->{runtime}{requires};
+
+    my sub _module_link($name) {
+        my $version = $runtime->{$name};
+        return sprintf( 'L<%s>%s', $name, $version ? " version ${version} or later" : "" );
+    }
+
+    my $lines = join( "\n\n", map { _module_link($_) } sort keys $runtime->%* ) or return;
+
+    my $pod = <<"POD_REQUIREMENTS"
+=head1 REQUIREMENTS
+
+POD_REQUIREMENTS
+      . $lines . "\n\n";
+
+    return $pod;
+}
+
+sub BUILD( $self, $ ) {
+
+    $self->log_fatal("Cannot use location='build' with phase='release'")
+      if $self->location eq 'build' and $self->phase eq 'release';
+
+}
+
+__PACKAGE__->meta->make_immutable;
+
+=head1 after:AUTHOR
+
+Some of this code was adapted from similar code in L<Dist::Zilla::Plugin::ReadmeAnyFromPod> and
+L<Dist::Zilla::Plugin::Readme::Brief>.
+
+=cut

@@ -73,8 +73,8 @@ has sections => (
               version
               synopsis
               description
-              installation
               requirements
+              installation
               support bugs source
               author authors
               contributor contributors

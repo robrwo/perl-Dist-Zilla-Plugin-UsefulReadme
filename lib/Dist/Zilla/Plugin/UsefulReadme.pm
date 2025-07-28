@@ -30,6 +30,10 @@ use experimental qw( lexical_subs postderef signatures );
 
 use namespace::autoclean;
 
+sub mvp_multivalue_args { qw( sections ) }
+
+sub mvp_aliases { return { section => 'sections' } }
+
 has source => (
     is      => 'lazy',
     isa     => NonEmptyStr,

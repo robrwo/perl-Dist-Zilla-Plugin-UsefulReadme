@@ -7,7 +7,7 @@ use Test::DZil;
 
 use Path::Tiny qw( path );
 
-my $ini = simple_ini( ['AutoPrereqs'], ['GatherDir'] );
+my $ini = simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'] );
 $ini .= << "SAMPLE";
 [UsefulReadme]
 section = DESCRIPTION
@@ -21,7 +21,7 @@ my $tzil = Builder->from_config(
            path(qw( source dist.ini )) => $ini,
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
-package Foo;
+package DZT::Sample;
 use strict;
 use warnings;
 

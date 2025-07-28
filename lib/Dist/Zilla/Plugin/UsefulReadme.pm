@@ -16,6 +16,7 @@ use Dist::Zilla 6.003;
 use Dist::Zilla::File::InMemory;
 use Encode          qw( encode FB_CROAK );
 use List::Util 1.33 qw( first none pairs );
+use Module::Metadata;
 use Module::Runtime qw( use_module );
 use MooseX::MungeHas;
 use Path::Tiny;
@@ -281,6 +282,72 @@ sub _generate_pod_for_version($self) {
 version $version
 
 POD_VERSION
+}
+
+sub _generate_pod_for_installation($self) {
+
+  my $zilla = $self->zilla;
+  my $arch  = $zilla->name . '-' . $zilla->version;
+
+  my $meta = Module::Metadata->new_from_file( $self->zilla->main_module->name );
+  my $pkg  = $meta->name;
+  my $pod =<<"POD_INSTALL";
+=head1 INSTALLATION
+
+The latest version of this module (along with any dependencies) can be installed from L<CPAN|https://www.cpan.org> with
+the C<cpan> tool that is included with Perl:
+
+    cpan ${pkg}
+
+You can also extract the distribution archive and install this module (along with any dependencies):
+
+    cpan .
+
+POD_INSTALL
+
+  my $name = "Makefile.PL"; # default
+
+  my @files = $zilla->files->@*;
+
+  if (my $type = first { $_->name =~ /\A(?:Build|Makefile)\.PL\z/ } @files) {
+
+    $name = $type->name;
+    my $cmd  = $name =~ /^Build/ ? "perl Build" : "make";
+
+    $pod .= <<"POD_INSTALL_BUILD";
+You can also install this module manually:
+
+    perl ${name}
+    ${cmd}
+    ${cmd} test
+    ${cmd} install
+
+POD_INSTALL_BUILD
+
+  }
+
+  $pod .= <<"POD_INSTALL_DZIL";
+If you are working with the source repository, then it may not have a F<${name}> file.  But you can use the
+L<Dist::Zilla|https://dzil.org/> tool to build and install this module:
+
+    dzil build
+    dzil test
+    dzil install --install-command="cpan ."
+
+POD_INSTALL_DZIL
+
+  my $also = "L<How to install CPAN modules|https://www.cpan.org/modules/INSTALL.html>";
+
+  if (my $doc = first { $_->name =~ /\AINSTALL(?:\.(txt|md|mkdn))?\z/ } @files ) {
+    $also = sprintf('the F<%s> file included with this distribution', $doc->name);
+  }
+
+  $pod .= <<"POD_INSTALL_FINAL";
+For more information, see ${also}.
+
+POD_INSTALL_FINAL
+
+  return $pod;
 }
 
 sub _generate_pod_for_requirements($self) {

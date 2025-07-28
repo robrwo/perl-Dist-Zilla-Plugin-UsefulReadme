@@ -11,10 +11,11 @@ my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
     {
         add_files => {
-           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], [ 'UsefulReadme', { type => 'gfm' } ], ),
+           path(qw( source INSTALL ))  => "How to install....",
+           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'], [ 'UsefulReadme', { type => 'gfm' } ], ),
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
-package Foo;
+package DZT::Sample;
 use strict;
 use warnings;
 

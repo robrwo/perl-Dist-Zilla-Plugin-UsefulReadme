@@ -11,10 +11,10 @@ my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
     {
         add_files => {
-           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], [ 'UsefulReadme', ], ),
+           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], [ 'UsefulReadme' ], ['MakeMaker'] ),
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
-package Foo;
+package DZT::Sample;
 use strict;
 use warnings;
 
@@ -57,8 +57,6 @@ MODULE
 
 $tzil->chrome->logger->set_debug(1);
 $tzil->build;
-
-# use DDP; p $tzil;
 
 my $file = path( $tzil->tempdir, "build", "README" );
 

@@ -13,13 +13,14 @@ my $tzil = Builder->from_config(
     {
         add_files => {
             path(qw( source dist.ini )) => simple_ini(
-                ['AutoPrereqs'],                                        #
-                ['GatherDir'],                                          #
+                ['AutoPrereqs'],                                                                  #
+                ['GatherDir'],                                                                    #
+                ['MakeMaker'],
                 [ 'UsefulReadme', { parser_class => 'Pod::Text', filename => 'ReadMe.txt' } ],    #
             ),
             path(qw( source lib/DZT/Sample.pm)) => <<'MODULE',
 
-package Foo;
+package DZT::Sample;
 use strict;
 use warnings;
 
@@ -62,8 +63,6 @@ MODULE
 
 $tzil->chrome->logger->set_debug(1);
 $tzil->build;
-
-# use DDP; p $tzil;
 
 my $file = path( $tzil->tempdir, "build", "ReadMe.txt" );
 

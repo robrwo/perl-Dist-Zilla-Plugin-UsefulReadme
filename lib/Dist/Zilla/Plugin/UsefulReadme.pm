@@ -12,7 +12,6 @@ with qw(
   Dist::Zilla::Role::PrereqSource
 );
 
-use CPAN::Changes::Parser 0.500002;
 use Dist::Zilla 6.003;
 use Dist::Zilla::File::InMemory;
 use Hash::Ordered 0.005;
@@ -451,6 +450,9 @@ POD_REQUIREMENTS
 }
 
 sub _generate_pod_for_recent_changes($self) {
+
+    # RECOMMEND PREREQ: CPAN::Changes::Parser 0.500002
+    use_module( "CPAN::Changes::Parser", 0.500002 );
 
     my $zilla = $self->zilla;
 

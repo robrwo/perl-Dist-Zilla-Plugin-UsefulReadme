@@ -12,6 +12,7 @@ with qw(
   Dist::Zilla::Role::PrereqSource
 );
 
+use CPAN::Changes::Parser;
 use Dist::Zilla 6.003;
 use Dist::Zilla::File::InMemory;
 use Encode          qw( encode FB_CROAK );
@@ -92,6 +93,7 @@ The default is equivalent to specifying
     section = description
     section = requirements
     section = installation
+    section = recent changes
     section = /support|bugs/
     section = source
     section = /authors?/
@@ -99,7 +101,7 @@ The default is equivalent to specifying
     section = /copyright|license|copyright and license/
     section = see also
 
-The C<version>, C<requirements> and C<installation> sections are special.
+The C<version>, C<requirements>, C<installation> and C<recent changes> sections are special.
 If they do not exist in the module POD, then default values will be used for them unless L</section_fallback> is false.
 
 =cut
@@ -117,6 +119,7 @@ has sections => (
               description
               requirements
               installation
+              recent_changes
               /support|bugs/
               source
               /authors?/
@@ -314,10 +317,11 @@ sub _generate_raw_pod($self) {
             return $found->as_pod_string;
         }
         elsif ( $self->section_fallback ) {
-            my $method = sprintf( '_generate_pod_for_%s', lc( $heading =~ s/\W+/ /gr ) );
+            my $method = sprintf( '_generate_pod_for_%s', lc( $heading =~ s/\W+/_/gr ) );
             if ( $self->can($method) ) {
                 return $self->$method;
             }
+
         }
         return;
     }
@@ -424,6 +428,45 @@ POD_REQUIREMENTS
 
     return $pod;
 }
+
+sub _generate_pod_for_recent_changes($self) {
+
+    my $zilla = $self->zilla;
+
+    my $file = first { $_->name eq "Changes" } $zilla->files->@* or return;
+
+    my $re     = quotemeta( $zilla->version );
+    my $parser = CPAN::Changes::Parser->new( version_like => qr/$re/ );
+
+    my $changelog = $parser->parse_string( $file->content );
+
+    # Ignore if there is only one release, e.g. "Initial release"
+    return if $changelog->releases <= 1;
+
+    state sub _release_to_pod($entry) {
+        my $pod = "";
+        $pod .= "=item * " . $entry->text . "\n\n" if $entry->can("text");
+        if ( my @entries = $entry->entries->@* ) {
+            $pod .= "=over\n\n" . join( "", map { __SUB__->($_) } @entries ) . "=back\n\n";
+        }
+        return $pod;
+    }
+
+    my $release = $changelog->find_release( $zilla->version );
+    my $version = $release->version;
+
+    my $pod = << "POD_CHANGES";
+=head1 RECENT CHANGES
+
+Changes for version ${version}:
+
+POD_CHANGES
+
+    $pod .= _release_to_pod($release) . "See the F<Changes> file for more details.\n\n";
+
+    return $pod;
+}
+
 
 sub BUILD( $self, $ ) {
 

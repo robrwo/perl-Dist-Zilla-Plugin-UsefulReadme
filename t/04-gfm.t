@@ -12,7 +12,22 @@ my $tzil = Builder->from_config(
     {
         add_files => {
            path(qw( source INSTALL ))  => "How to install....",
-           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'], [ 'UsefulReadme', { type => 'gfm' } ], ),
+           path(qw( source Changes )) => << 'CHANGES',
+Revision history for DZT-Sample:
+
+{{$NEXT}}
+  [Bug Fixes]
+  - The software sort of works now.
+
+  [Documentation]
+  - Fixed embarrassing typos.
+
+0.000   2025-07-05 03:46:12+01:00 Europe/London
+  - Initial version
+
+CHANGES
+           path(qw( source dist.ini )) =>
+             simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'], ['NextRelease'], [ 'UsefulReadme', { type => 'gfm' } ], ),
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
 package DZT::Sample;

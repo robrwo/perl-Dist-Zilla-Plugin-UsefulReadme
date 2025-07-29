@@ -11,7 +11,14 @@ my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
     {
         add_files => {
-           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], ['ModuleBuild'], [ 'UsefulReadme', { type => 'markdown' } ], ),
+           path(qw( source Changes )) => << 'CHANGES',
+Revision history for DZT-Sample:
+
+{{$NEXT}}
+  - Initial version
+
+CHANGES
+           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], ['ModuleBuild'], ['NextRelease'], [ 'UsefulReadme', { type => 'markdown' } ], ),
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
 package DZT::Sample;

@@ -12,7 +12,7 @@ with qw(
   Dist::Zilla::Role::PrereqSource
 );
 
-use CPAN::Changes::Parser;
+use CPAN::Changes::Parser 0.500002;
 use Dist::Zilla 6.003;
 use Dist::Zilla::File::InMemory;
 use Encode          qw( encode FB_CROAK );

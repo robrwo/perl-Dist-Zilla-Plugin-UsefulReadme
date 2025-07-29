@@ -32,6 +32,8 @@ use experimental qw( lexical_subs postderef signatures );
 
 use namespace::autoclean;
 
+our $VERSION = 'v0.1.0';
+
 sub mvp_multivalue_args { qw( sections ) }
 
 sub mvp_aliases { return { section => 'sections', fallback => 'section_fallback' } }
@@ -227,6 +229,7 @@ sub register_prereqs($self) {
                 phase => 'develop',
                 type  => 'requires',
             },
+            ref($self) => $VERSION,
             $prereqs->@*
         );
     }

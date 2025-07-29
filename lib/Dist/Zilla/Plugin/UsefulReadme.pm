@@ -356,7 +356,7 @@ sub _generate_pod_for_requirements($self) {
 
     my sub _module_link($name) {
         my $version = $runtime->{$name};
-        return sprintf( 'L<%s>%s', $name, $version ? " version ${version} or later" : "" );
+        return sprintf( '=item * L<%s>%s', $name, $version ? " version ${version} or later" : "" );
     }
 
     my $lines = join( "\n\n", map { _module_link($_) } sort keys $runtime->%* ) or return;
@@ -364,8 +364,12 @@ sub _generate_pod_for_requirements($self) {
     my $pod = <<"POD_REQUIREMENTS"
 =head1 REQUIREMENTS
 
+This module lists the following modules as runtime dependencies:
+
+=over
+
 POD_REQUIREMENTS
-      . $lines . "\n\n";
+      . $lines . "\n\n=back\n\n";
 
     return $pod;
 }

@@ -10,8 +10,10 @@ use Path::Tiny qw( path );
 my $ini = simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'] );
 $ini .= << "SAMPLE";
 [UsefulReadme]
+section = VERSION
 section = DESCRIPTION
-section = AUTHOR
+section = /AUTHORS?/
+fallback = 0
 SAMPLE
 
 my $tzil = Builder->from_config(

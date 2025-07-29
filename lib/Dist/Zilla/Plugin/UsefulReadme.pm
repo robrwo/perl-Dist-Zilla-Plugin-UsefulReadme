@@ -25,7 +25,7 @@ use Pod::Elemental;
 use Pod::Elemental::Transformer::Pod5;
 use Pod::Elemental::Transformer::Nester;
 use Pod::Elemental::Selectors;
-use Types::Common qw( ArrayRef CodeRef Enum NonEmptyStr StrMatch );
+use Types::Common qw( ArrayRef Bool CodeRef Enum NonEmptyStr StrMatch );
 
 use experimental qw( lexical_subs postderef signatures );
 
@@ -33,7 +33,7 @@ use namespace::autoclean;
 
 sub mvp_multivalue_args { qw( sections ) }
 
-sub mvp_aliases { return { section => 'sections' } }
+sub mvp_aliases { return { section => 'sections', fallback => 'section_fallback' } }
 
 has source => (
     is      => 'lazy',
@@ -62,6 +62,48 @@ has location => (
     default => 'build',
 );
 
+=option section_fallback
+
+If one of the L</sections> does not exist in the POD, then generate one for the  L<README|/filename>.
+It is true by default but cal be disabled, e.g.
+
+    fallback = 0
+
+=cut
+
+has section_fallback => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 1,
+);
+
+=option sections
+
+This is a list of C<=head1> sections to be included in the L<README|/filename>.
+It can be specified multiple times using the C<section> option.
+
+This can either be a case-insentitive string, or a regex that implicitly matches the entire heading, surrounded by slashes.
+
+The default is equivalent to specifying
+
+    section = name
+    section = version
+    section = synopsis
+    section = description
+    section = requirements
+    section = installation
+    section = /support|bugs/
+    section = source
+    section = /authors?/
+    section = /contributors?/
+    section = /copyright|license|copyright and license/
+    section = see also
+
+The C<version>, C<requirements> and C<installation> sections are special.
+If they do not exist in the module POD, then default values will be used for them unless L</section_fallback> is false.
+
+=cut
+
 has sections => (
     is      => 'ro',
     isa     => ArrayRef [NonEmptyStr],
@@ -75,10 +117,11 @@ has sections => (
               description
               requirements
               installation
-              support bugs source
-              author authors
-              contributor contributors
-              copyright license copyright_and_license
+              /support|bugs/
+              source
+              /authors?/
+              /contributors?/
+              /copyright|license|copyright_and_license/
               see_also
               )
         ];
@@ -255,15 +298,23 @@ sub _generate_raw_pod($self) {
     my @sections = $doc->children->@*;
 
     my sub _get_section($heading) {
+        my $check;
+        if ( my ($re) = $heading =~ m|\A/(.+)/\z| ) {
+            $check = sub($item) { return $item->content =~ qr/\A(?:${re})\z/i };
+        }
+        else {
+            $check = sub($item) { return fc( $item->content ) eq fc($heading) };
+        }
+
         if (
             my $found =
-            first { Pod::Elemental::Selectors::s_command( head1 => $_ ) && fc( $_->content ) eq fc($heading) } @sections
+            first { Pod::Elemental::Selectors::s_command( head1 => $_ ) && $check->($_) } @sections
           )
         {
             return $found->as_pod_string;
         }
-        else {
-            my $method = sprintf( '_generate_pod_for_%s', lc($heading) );
+        elsif ( $self->section_fallback ) {
+            my $method = sprintf( '_generate_pod_for_%s', lc( $heading =~ s/\W+/ /gr ) );
             if ( $self->can($method) ) {
                 return $self->$method;
             }

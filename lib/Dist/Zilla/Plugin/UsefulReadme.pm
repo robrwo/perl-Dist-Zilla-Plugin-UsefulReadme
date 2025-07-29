@@ -16,7 +16,7 @@ use Dist::Zilla 6.003;
 use Dist::Zilla::File::InMemory;
 use Encode          qw( encode FB_CROAK );
 use List::Util 1.33 qw( first none pairs );
-use Module::Metadata;
+use Module::Metadata 1.000015;
 use Module::Runtime qw( use_module );
 use MooseX::MungeHas;
 use Path::Tiny;

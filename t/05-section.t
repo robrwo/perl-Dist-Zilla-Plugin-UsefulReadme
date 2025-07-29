@@ -12,6 +12,7 @@ $ini .= << "SAMPLE";
 [UsefulReadme]
 section = VERSION
 section = DESCRIPTION
+section = SPORK
 section = /AUTHORS?/
 fallback = 0
 SAMPLE
@@ -35,6 +36,14 @@ our $VERSION = '0.001';
 =head1 NAME
 
 DZT::Sample - Sample DZ Dist
+
+=begin :readme
+
+=head1 SPORK
+
+This should only be visible in the README.
+
+=end :readme
 
 =head1 DESCRIPTION
 

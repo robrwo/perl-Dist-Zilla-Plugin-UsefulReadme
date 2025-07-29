@@ -15,6 +15,7 @@ with qw(
 use CPAN::Changes::Parser 0.500002;
 use Dist::Zilla 6.003;
 use Dist::Zilla::File::InMemory;
+use Hash::Ordered 0.005;
 use List::Util 1.33 qw( first none pairs );
 use Module::Metadata 1.000015;
 use Module::Runtime qw( use_module );
@@ -103,6 +104,16 @@ The default is equivalent to specifying
 
 The C<version>, C<requirements>, C<installation> and C<recent changes> sections are special.
 If they do not exist in the module POD, then default values will be used for them unless L</section_fallback> is false.
+
+This will also include C<=head1> sections in regions marked as C<readme>, normally used for L<Pod::Readme>:
+
+    =begin :readme
+
+    =head1 REQUIREMENTS
+
+    This should only be visible in the README.
+
+    =end :readme
 
 =cut
 
@@ -298,31 +309,41 @@ sub _generate_raw_pod($self) {
     );
     $nester->transform_node($doc);
 
-    my @sections = $doc->children->@*;
+    my @nodes = $doc->children->@*;
+
+    my $sections = Hash::Ordered->new;
+    for my $sec ( grep { Pod::Elemental::Selectors::s_command( head1 => $_ ) } @nodes ) {
+        my $heading = fc( $sec->content );
+        next if $sections->exists($heading);
+        $sections->set( $heading => $sec->as_pod_string );
+    }
+
+    for my $readme ( grep { Pod::Elemental::Selectors::s_command( begin => $_ ) && $_->format_name =~ /^:?readme$/ } @nodes ) {
+        if ( my $found = first { Pod::Elemental::Selectors::s_command( head1 => $_ ) } $readme->children->@* ) {
+            my $heading = fc( $found->content );
+            next if $sections->exists($heading);
+            $sections->set( $heading => join( "", map { $_->as_pod_string } $readme->children->@* ) );
+        }
+    }
 
     my sub _get_section($heading) {
-        my $check;
-        if ( my ($re) = $heading =~ m|\A/(.+)/\z| ) {
-            $check = sub($item) { return $item->content =~ qr/\A(?:${re})\z/i };
-        }
-        else {
-            $check = sub($item) { return fc( $item->content ) eq fc($heading) };
-        }
 
-        if (
-            my $found =
-            first { Pod::Elemental::Selectors::s_command( head1 => $_ ) && $check->($_) } @sections
-          )
-        {
-            return $found->as_pod_string;
+        if ( my $pod = $sections->get( fc $heading ) ) {
+            return $pod;
+        }
+        elsif ( my ($re) = $heading =~ m|\A/(.+)/\z| ) {
+            my $check = sub($key) { return $key =~ qr/\A(?:${re})\z/i };
+            for my $key ( $sections->keys ) {
+                return $sections->get($key) if $check->($key);
+            }
         }
         elsif ( $self->section_fallback ) {
             my $method = sprintf( '_generate_pod_for_%s', lc( $heading =~ s/\W+/_/gr ) );
             if ( $self->can($method) ) {
                 return $self->$method;
             }
-
         }
+
         return;
     }
 

@@ -463,43 +463,8 @@ POD_REQUIREMENTS
 
 sub _generate_pod_for_recent_changes($self) {
 
-    # RECOMMEND PREREQ: CPAN::Changes::Parser 0.500002
-    use_module( "CPAN::Changes::Parser", 0.500002 );
-
-    my $zilla = $self->zilla;
-
-    my $file = first { $_->name eq "Changes" } $zilla->files->@* or return;
-
-    my $re     = quotemeta( $zilla->version );
-    my $parser = CPAN::Changes::Parser->new( version_like => qr/$re/ );
-
-    my $changelog = $parser->parse_string( $file->content );
-
-    # Ignore if there is only one release, e.g. "Initial release"
-    return if $changelog->releases <= 1;
-
-    state sub _release_to_pod($entry) {
-        my $pod = "";
-        $pod .= "=item * " . $entry->text . "\n\n" if $entry->can("text");
-        if ( my @entries = $entry->entries->@* ) {
-            $pod .= "=over\n\n" . join( "", map { __SUB__->($_) } @entries ) . "=back\n\n";
-        }
-        return $pod;
-    }
-
-    my $release = $changelog->find_release( $zilla->version );
-    my $version = $release->version;
-
-    my $pod = << "POD_CHANGES";
-=head1 RECENT CHANGES
-
-Changes for version ${version}:
-
-POD_CHANGES
-
-    $pod .= _release_to_pod($release) . "See the F<Changes> file for more details.\n\n";
-
-    return $pod;
+    # RECOMMEND PREREQ: Pod::Weaver::Section::RecentChanges
+    return $self->_fake_weaver_section( "Pod::Weaver::Section::RecentChanges", { version => $self->zilla->version } );
 }
 
 

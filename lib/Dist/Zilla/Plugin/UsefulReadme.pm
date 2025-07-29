@@ -22,6 +22,7 @@ use MooseX::MungeHas;
 use Path::Tiny;
 use PPI::Token::Pod ();
 use Pod::Elemental;
+use Pod::Elemental::Document;
 use Pod::Elemental::Transformer::Pod5;
 use Pod::Elemental::Transformer::Nester;
 use Pod::Elemental::Selectors;
@@ -307,7 +308,6 @@ sub _generate_raw_pod($self) {
         },
     );
     $nester->transform_node($doc);
-
     my @nodes = $doc->children->@*;
 
     my $sections = Hash::Ordered->new;
@@ -349,14 +349,26 @@ sub _generate_raw_pod($self) {
     return join( "", map { _get_section($_) } $self->sections->@* );
 }
 
+sub _fake_weaver_section( $self, $class, $args = { } ) {
+
+    # RECOMMEND PREREQ: Pod::Weaver
+    use_module("Pod::Weaver");
+    use_module($class);
+
+    my $zilla = $self->zilla;
+
+    my $doc = Pod::Elemental::Document->new;
+
+    my $weaver  = Pod::Weaver->new_with_default_config;
+    my $section = $class->new( plugin_name => ref($self), weaver => $weaver, logger => $zilla->logger );
+    $section->weave_section( $doc, { zilla => $zilla, $args->%* } );
+
+    return $doc->as_pod_string;
+}
+
 sub _generate_pod_for_version($self) {
-    my $version = $self->zilla->distmeta->{version};
-    return <<"POD_VERSION";
-=head1 VERSION
-
-version $version
-
-POD_VERSION
+  # RECOMMEND PREREQ: Pod::Weaver::Section::Version
+  return $self->_fake_weaver_section( "Pod::Weaver::Section::Version", { version => $self->zilla->version } );
 }
 
 sub _generate_pod_for_installation($self) {

@@ -165,6 +165,10 @@ my %CONFIG = (
             'Pod::Markdown::Github' => 0,
         ],
     },
+    custom => {
+        filename => '', # the user will have to specify this
+        prereqs  => [],
+    },
 );
 
 has type => (

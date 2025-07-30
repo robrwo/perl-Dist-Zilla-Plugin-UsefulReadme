@@ -439,26 +439,8 @@ POD_INSTALL_FINAL
 
 sub _generate_pod_for_requirements($self) {
 
-    my $runtime = $self->zilla->prereqs->as_string_hash->{runtime}{requires};
-
-    my sub _module_link($name) {
-        my $version = $runtime->{$name};
-        return sprintf( '=item * L<%s>%s', $name, $version ? " version ${version} or later" : "" );
-    }
-
-    my $lines = join( "\n\n", map { _module_link($_) } sort keys $runtime->%* ) or return;
-
-    my $pod = <<"POD_REQUIREMENTS"
-=head1 REQUIREMENTS
-
-This module lists the following modules as runtime dependencies:
-
-=over
-
-POD_REQUIREMENTS
-      . $lines . "\n\n=back\n\n";
-
-    return $pod;
+    # RECOMMEND PREREQ: Pod::Weaver::Section::Requirements
+    return $self->_fake_weaver_section( "Pod::Weaver::Section::Requirements" );
 }
 
 sub _generate_pod_for_recent_changes($self) {

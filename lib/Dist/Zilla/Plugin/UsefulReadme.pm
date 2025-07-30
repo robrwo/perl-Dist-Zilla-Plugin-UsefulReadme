@@ -381,7 +381,6 @@ sub _generate_pod_for_version($self) {
 sub _generate_pod_for_installation($self) {
 
   my $zilla = $self->zilla;
-  my $arch  = $zilla->name . '-' . $zilla->version;
 
   my $meta = Module::Metadata->new_from_file( $self->zilla->main_module->name );
   my $pkg  = $meta->name;

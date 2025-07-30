@@ -145,7 +145,7 @@ has sections => (
 my %CONFIG = (
     pod => {
         filename => 'README.pod',
-        parser   => sub($pod) { return $pod },
+        prereqs  => [],
     },
     text => {
         filename => 'README',

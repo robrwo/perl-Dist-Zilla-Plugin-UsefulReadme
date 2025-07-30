@@ -115,3 +115,9 @@ sub weave_section( $self, $document, $input ) {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+=head1 SEE ALSO
+
+L<Pod::Weaver::Section::Requires>
+
+=cut

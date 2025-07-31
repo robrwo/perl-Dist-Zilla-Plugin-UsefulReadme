@@ -1,5 +1,7 @@
 package Pod::Weaver::Section::InstallationInstructions;
 
+# ABSTRACT: generate POD with installation instructions
+
 use v5.20;
 
 use Moose;

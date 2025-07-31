@@ -1,5 +1,7 @@
 package Pod::Weaver::Section::RecentChanges;
 
+# ABSTRACT: generate POD with the recent changes
+
 use v5.20;
 
 use Moose;

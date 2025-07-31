@@ -1,5 +1,7 @@
 package Pod::Weaver::Section::Requirements;
 
+# ABSTRACT: generate POD with the runtime requirements
+
 use v5.20;
 
 use Moose;

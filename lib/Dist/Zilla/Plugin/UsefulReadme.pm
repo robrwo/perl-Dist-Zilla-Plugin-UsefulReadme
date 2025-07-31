@@ -1,5 +1,7 @@
 package Dist::Zilla::Plugin::UsefulReadme;
 
+# ABSTRACT: generate a README file with the useful bits
+
 use v5.20;
 
 use Moose;

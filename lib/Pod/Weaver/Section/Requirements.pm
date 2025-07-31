@@ -11,6 +11,8 @@ use Types::Common qw( NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );
 
+our $VERSION = 'v0.1.0';
+
 =option header
 
 The header to use. It defaults to "REQUIREMENTS".

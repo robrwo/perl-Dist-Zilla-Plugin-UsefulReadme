@@ -187,9 +187,10 @@ has parser_class => (
     }
 );
 
-has parser => (
+has _parser => (
     is      => 'lazy',
     isa     => CodeRef,
+    init_arg => undef,
     builder => sub($self) {
         my $prereqs = $CONFIG{ $self->type }{prereqs};
         my $class = $self->parser_class;
@@ -288,7 +289,7 @@ sub _create_readme( $self, $dir ) {
 
 sub _generate_readme_content($self) {
     my $config  = $CONFIG{ $self->type };
-    return $self->parser->( $self->_generate_raw_pod );
+    return $self->_parser->( $self->_generate_raw_pod );
 }
 
 sub _generate_raw_pod($self) {

@@ -40,6 +40,14 @@ sub mvp_multivalue_args { qw( sections ) }
 
 sub mvp_aliases { return { section => 'sections', fallback => 'section_fallback' } }
 
+=option source
+
+This is the path to the module that will be used for generating the F<README>.
+
+It will default to the main module.
+
+=cut
+
 has source => (
     is      => 'lazy',
     isa     => NonEmptyStr,
@@ -55,11 +63,27 @@ sub _source_file($self) {
     return first { $_->name eq $filename } $self->zilla->files->@*;
 }
 
+=option phase
+
+This is the phase to generate the F<README>.
+
+Allowed values are C<build> (default) or C<release>.
+
+=cut
+
 has phase => (
     is      => 'ro',
     isa     => Enum [qw(build release)],
     default => 'build',
 );
+
+=option location
+
+This is where the new F<README> will be saved.
+
+Allowed values are C<build> (default) or the distribution C<root>.
+
+=cut
 
 has location => (
     is      => 'ro',
@@ -69,7 +93,7 @@ has location => (
 
 =option section_fallback
 
-If one of the L</sections> does not exist in the POD, then generate one for the  L<README|/filename>.
+If one of the L</sections> does not exist in the POD, then generate one for the F<README>.
 It is true by default but cal be disabled, e.g.
 
     fallback = 0
@@ -173,11 +197,29 @@ my %CONFIG = (
     },
 );
 
+=option type
+
+This is the file to generate the F<README>.
+
+Allowed values are C<pod>, C<text> (default), C<markdown>, C<gfm> (GitHub-flavoured markdown) or C<custom>.
+
+Note that the L</filename> will have a different default, dependiong on the type.
+
+If C<custom> is chosen, then you must specify a L</filename> and L</parser_class>.
+
+=cut
+
 has type => (
     is      => 'ro',
     isa     => Enum [ keys %CONFIG ],
     default => 'text',
 );
+
+=option parser_class
+
+This is the POD parser class, based on the L</type>.
+
+=cut
 
 has parser_class => (
     is => 'lazy',
@@ -211,6 +253,12 @@ has _parser => (
         }
     }
 );
+
+=option filename
+
+This is the filename to use, e.g. F<README> or F<REAME.md>.
+
+=cut
 
 has filename => (
     is      => 'lazy',

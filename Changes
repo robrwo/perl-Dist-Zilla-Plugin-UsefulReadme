@@ -8,5 +8,7 @@ Release history for {{ $dist->name }}:
   [Documentation]
   - Added a sample of what the INSTALLATION section looks like.
 
+  - Fixed typos.
+
 v0.1.0    2025-08-01 14:44:05+01:00 Europe/London
   - Initial version released.

@@ -73,7 +73,7 @@ The actual text will depend on how it is configured, and what files are in the d
 
 =option header
 
-The header to use. It defaults to "REQUIREMENTS".
+The header to use. It defaults to "INSTALLATION".
 
 =cut
 

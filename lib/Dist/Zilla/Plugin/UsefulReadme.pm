@@ -460,19 +460,14 @@ sub _generate_pod_for_version($self) {
 }
 
 sub _generate_pod_for_installation($self) {
-    # RECOMMEND PREREQ: Pod::Weaver::Section::InstallationInstructions
     return $self->_fake_weaver_section( "Pod::Weaver::Section::InstallationInstructions" );
 }
 
 sub _generate_pod_for_requirements($self) {
-
-    # RECOMMEND PREREQ: Pod::Weaver::Section::Requirements
     return $self->_fake_weaver_section( "Pod::Weaver::Section::Requirements" );
 }
 
 sub _generate_pod_for_recent_changes($self) {
-
-    # RECOMMEND PREREQ: Pod::Weaver::Section::RecentChanges
     return $self->_fake_weaver_section( "Pod::Weaver::Section::RecentChanges", { version => $self->zilla->version } );
 }
 

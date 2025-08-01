@@ -22,6 +22,12 @@ use namespace::autoclean;
 
 our $VERSION = 'v0.1.1';
 
+=begin :prelude
+
+=for stopwords metafile
+
+=end :prelude
+
 =head1 SYNOPSIS
 
 In the F<weaver.ini>

@@ -19,6 +19,19 @@ use namespace::autoclean;
 
 our $VERSION = 'v0.1.0';
 
+=head1 SYNOPSIS
+
+In the F<weaver.ini>
+
+    [InstallationInstructions]
+    header  = INSTALLATION
+    builder = Makefile.PL
+    region  = :readme
+
+=head1 DESCRIPTION
+
+This is a L<Pod::Weaver> plugin to add a section with installation instructions.
+
 =option header
 
 The header to use. It defaults to "REQUIREMENTS".

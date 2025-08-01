@@ -155,7 +155,7 @@ sub weave_section( $self, $document, $input ) {
 
     my $text = "Changes for version " . $version;
     if ( my $date = $release->date ) {
-        $text .= "($date)";
+        $text .= sprintf( ' (%s)', substr( $date, 0, 10 ) );
     }
 
     my $res = Pod::Elemental::Element::Nested->new(

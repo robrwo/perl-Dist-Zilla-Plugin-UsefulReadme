@@ -34,6 +34,21 @@ runtime requirements, and including installation instructions.
 
 This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A%3AReadme) that works better with [Pod::Weaver](https://metacpan.org/pod/Pod%3A%3AWeaver).
 
+# RECENT CHANGES
+
+Changes for version v0.1.1 (2025-08-01)
+
+- Enhancements
+    - Pod::Weaver::Section::Requirements will refer uses to the \`cpanfile\` or \`META.json/yml\` files for the full list of prerequisites.
+- Bug Fixes
+    - Fixed a bug with variable parameters in the after\_release method.
+    - Fixed the formatting of the date in the RECENT CHANGES section.
+- Documentation
+    - Added a sample of what the INSTALLATION section looks like.
+    - Fixed typos.
+
+See the `Changes` file for more details.
+
 # REQUIREMENTS
 
 This module lists the following modules as runtime dependencies:
@@ -56,6 +71,8 @@ This module lists the following modules as runtime dependencies:
 - [experimental](https://metacpan.org/pod/experimental)
 - [namespace::autoclean](https://metacpan.org/pod/namespace%3A%3Aautoclean)
 - [perl](https://metacpan.org/pod/perl) version v5.20.0 or later
+
+See the `cpanfile` file for the full list of prerequisites.
 
 # INSTALLATION
 

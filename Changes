@@ -1,6 +1,9 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Pod::Weaver::Section::Requirements will refer uses to the `cpanfile` or `META.json/yml` files for the full list of
+    prerequisites.
 
 v0.1.0    2025-08-01 14:44:05+01:00 Europe/London
   - Initial version released.

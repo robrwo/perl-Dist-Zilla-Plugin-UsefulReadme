@@ -27,7 +27,7 @@ Revision history for DZT-Sample:
 
 CHANGES
            path(qw( source dist.ini )) =>
-             simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'], ['NextRelease'], [ 'UsefulReadme', { type => 'gfm' } ], ),
+             simple_ini( ['AutoPrereqs'], ['GatherDir'], ['MakeMaker'], ['CPANFile'], ['NextRelease'], [ 'UsefulReadme', { type => 'gfm' } ], ),
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
 package DZT::Sample;

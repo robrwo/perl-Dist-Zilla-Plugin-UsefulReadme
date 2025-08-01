@@ -7,6 +7,7 @@ use v5.20;
 use Moose;
 with 'Pod::Weaver::Role::Section';
 
+use List::Util qw( first );
 use MooseX::MungeHas;
 use Perl::PrereqScanner 1.024;
 use Pod::Elemental::Element::Nested;
@@ -65,6 +66,18 @@ has region => (
     is      => 'lazy',
     isa     => SimpleStr,
     default => '',
+);
+
+=option metafile
+
+A file that lists metadata about prerequisites. It defaults to C<cpanfile>.
+
+=cut
+
+has metafile => (
+    is      => 'lazy',
+    isa     => SimpleStr,
+    default => 'cpanfile',
 );
 
 sub weave_section( $self, $document, $input ) {
@@ -133,6 +146,14 @@ sub weave_section( $self, $document, $input ) {
             ]
         }
     );
+
+    my %files = map { $_->name => 1 } $zilla->files->@*;
+    my @metafiles = grep { $_ ne '' } ( $self->metafile, qw( cpanfile META.json META.yml ) );
+    if ( my $file = first { $files{$_} } @metafiles ) {
+        push $res->children->@*,
+          Pod::Elemental::Element::Pod5::Ordinary->new(
+            { content => "See the F<${file}> file for the full list of prerequisites." } );
+    }
 
     if ( my $name = $self->region ) {
 

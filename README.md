@@ -42,9 +42,9 @@ Changes for version v0.1.1 (2025-08-01)
     - Pod::Weaver::Section::Requirements will refer uses to the \`cpanfile\` or \`META.json/yml\` files for the full list of prerequisites.
 - Bug Fixes
     - Fixed a bug with variable parameters in the after\_release method.
-    - Fixed the formatting of the date in the RECENT CHANGES section.
+    - Fixed the formatting of the date in the RECENT CHANGES section in Pod::Weaver::Section::Requirements.
 - Documentation
-    - Added a sample of what the INSTALLATION section looks like.
+    - Added a sample of what the INSTALLATION section looks like in Pod::Weaver::Section::InstallationInstructions.
     - Fixed typos.
 
 See the `Changes` file for more details.

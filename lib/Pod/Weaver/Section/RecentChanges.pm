@@ -56,6 +56,23 @@ has changelog => (
     default => 'Changes',
 );
 
+=option version
+
+This is the release version to show.
+
+The only reason to set this is if you need to specify the L<Dist::Zilla> version placeholder because you want to insert
+the recent changes into the module POD, e.g.
+
+    version = {{$NEXT}}
+
+=cut
+
+has version => (
+    is      => 'lazy',
+    isa     => SimpleStr,
+    default => '',
+);
+
 =option region
 
 When set to a non-empty string, the section will be embedded in a POD region, e.g.
@@ -83,7 +100,7 @@ sub weave_section( $self, $document, $input ) {
 
     my $file = first { $_->name eq $self->changelog } $zilla->files->@* or return;
 
-    my $version = $input->{version} // $zilla->version;
+    my $version = $self->version || ( $input->{version} // $zilla->version );
 
     my $re     = quotemeta($version);
     my $parser = CPAN::Changes::Parser->new( version_like => qr/$re/ );
@@ -132,7 +149,7 @@ sub weave_section( $self, $document, $input ) {
 
     }
 
-    my $release = $changelog->find_release($version);
+    my $release = $changelog->find_release($version) or return;
 
     my $text = "Changes for version " . $version;
     if ( my $date = $release->date ) {

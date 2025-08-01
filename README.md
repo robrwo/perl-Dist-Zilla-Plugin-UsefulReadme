@@ -117,6 +117,9 @@ and may be cloned from [git://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulRea
 
 Robert Rothenberg <rrwo@cpan.org>
 
+Some of this code was adapted from similar code in [Dist::Zilla::Plugin::ReadmeAnyFromPod](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AReadmeAnyFromPod) and
+[Dist::Zilla::Plugin::Readme::Brief](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AReadme%3A%3ABrief).
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2025 by Robert Rothenberg.

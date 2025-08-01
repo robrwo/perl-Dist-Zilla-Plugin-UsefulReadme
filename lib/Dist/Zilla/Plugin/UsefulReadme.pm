@@ -507,7 +507,7 @@ years.
 If the bug you are reporting has security implications which make it inappropriate to send to a public issue tracker,
 then see F<SECURITY.md> for instructions how to report security vulnerabilities.
 
-=head1 after:AUTHOR
+=head1 append:AUTHOR
 
 Some of this code was adapted from similar code in L<Dist::Zilla::Plugin::ReadmeAnyFromPod> and
 L<Dist::Zilla::Plugin::Readme::Brief>.

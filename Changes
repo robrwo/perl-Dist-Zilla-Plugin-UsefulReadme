@@ -8,10 +8,10 @@ Release history for {{ $dist->name }}:
   [Bug Fixes]
   - Fixed a bug with variable parameters in the after_release method.
 
-  - Fixed the formatting of the date in the RECENT CHANGES section.
+  - Fixed the formatting of the date in the RECENT CHANGES section in Pod::Weaver::Section::Requirements.
 
   [Documentation]
-  - Added a sample of what the INSTALLATION section looks like.
+  - Added a sample of what the INSTALLATION section looks like in Pod::Weaver::Section::InstallationInstructions.
 
   - Fixed typos.
 

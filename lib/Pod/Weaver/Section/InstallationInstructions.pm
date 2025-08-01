@@ -15,6 +15,8 @@ use Types::Common qw( Enum NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );
 
+use namespace::autoclean;
+
 our $VERSION = 'v0.1.0';
 
 =option header

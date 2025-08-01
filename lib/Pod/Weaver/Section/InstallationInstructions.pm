@@ -36,6 +36,41 @@ In the F<weaver.ini>
 
 This is a L<Pod::Weaver> plugin to add a section with installation instructions.
 
+The installation instructions will look something like
+
+    INSTALLATION
+
+    The latest version of this module (along with any dependencies) can be
+    installed from CPAN <https://www.cpan.org> with the cpan tool that is
+    included with Perl:
+
+        cpan Pod::Weaver::Section::InstallationInstructions
+
+    You can also extract the distribution archive and install this module
+    (along with any dependencies):
+
+        cpan .
+
+    You can also install this module manually using the following commands:
+
+        perl Makefile.PL
+        make
+        make test
+        make install
+
+    If you are working with the source repository, then it may not have a
+    Makefile.PL file. But you can use the Dist::Zilla <https://dzil.org/>
+    tool in anger to build and install this module:
+
+        dzil build
+        dzil test
+        dzil install --install-command="cpan ."
+
+    For more information, see How to install CPAN modules
+    <https://www.cpan.org/modules/INSTALL.html>.
+
+The actual text will depend on how it is configured, and what files are in the distribution.
+
 =option header
 
 The header to use. It defaults to "REQUIREMENTS".

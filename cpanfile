@@ -11,6 +11,7 @@ requires "Moose" => "0";
 requires "MooseX::MungeHas" => "0";
 requires "PPI::Token::Pod" => "0";
 requires "Path::Tiny" => "0";
+requires "Perl::PrereqScanner" => "1.024";
 requires "Pod::Elemental" => "0";
 requires "Pod::Simple" => "3.23";
 requires "Pod::Weaver::Role::Section" => "0";

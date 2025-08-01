@@ -8,6 +8,7 @@ use Moose;
 with 'Pod::Weaver::Role::Section';
 
 use MooseX::MungeHas;
+use Perl::PrereqScanner 1.024;
 use Pod::Elemental::Element::Nested;
 use Types::Common qw( NonEmptySimpleStr SimpleStr );
 
@@ -28,6 +29,12 @@ In the F<weaver.ini>
 =head1 DESCRIPTION
 
 This is a L<Pod::Weaver> plugin to add a section with the runtime requirements.
+
+=head1 KNOWN ISSUES
+
+When this is used to insert a section into the POD of a module, that it will only show the requirements for that module,
+and not the requirements of all of the modules in distribution.  To show the later, it must be run after the build phase
+from L<Dist::Zilla> though a plugin such as L<Dist::Zilla::Plugin::UsefulReadme>.
 
 =option header
 
@@ -67,6 +74,17 @@ sub weave_section( $self, $document, $input ) {
     }
 
     my $runtime = $zilla->prereqs->as_string_hash->{runtime}{requires};
+
+    unless ($runtime) {
+      my $file = $input->{filename};
+
+      my $scanner = Perl::PrereqScanner->new;
+      my $prereqs = $scanner->scan_ppi_document($input->{ppi_document} );
+
+      $runtime = $prereqs->as_string_hash;
+    }
+
+    return unless $runtime;
 
     my sub _module_link($name) {
         my $version = $runtime->{$name};

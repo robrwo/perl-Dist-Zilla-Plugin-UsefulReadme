@@ -194,6 +194,8 @@ sub weave_section( $self, $document, $input ) {
 
 __PACKAGE__->meta->make_immutable;
 
+=for Pod::Coverage weave_section
+
 =head1 SEE ALSO
 
 L<Pod::Weaver::Section::Changes>

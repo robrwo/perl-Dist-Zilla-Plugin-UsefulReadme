@@ -488,6 +488,8 @@ sub BUILD( $self, $ ) {
 
 __PACKAGE__->meta->make_immutable;
 
+=for Pod::Coverage BUILD after_build after_release gather_files mvp_aliases mvp_multivalue_args prune_files register_prereqs
+
 =head1 SEE ALSO
 
 L<Dist::Zilla>

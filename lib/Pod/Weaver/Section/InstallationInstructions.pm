@@ -209,6 +209,8 @@ POD_DZIL_INSTALL
 
 __PACKAGE__->meta->make_immutable;
 
+=for Pod::Coverage weave_section
+
 =head1 SEE ALSO
 
 L<Pod::Weaver::Section::Installation>

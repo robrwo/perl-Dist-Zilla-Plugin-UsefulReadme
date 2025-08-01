@@ -498,6 +498,20 @@ L<Dist::Zilla::Plugin::Readme::Brief>
 
 L<Dist::Zilla::Plugin::ReadmeAnyFromPod>
 
+=head1 prepend:SUPPORT
+
+Only the latest version of this module will be supported.
+
+This module requires Perl v5.20 or later.  Future releases may only support Perl versions released in the last ten
+years.
+
+=head2 Reporting Bugs and Submitting Feature Requests
+
+=head1 append:SUPPORT
+
+If the bug you are reporting has security implications which make it inappropriate to send to a public issue tracker,
+then see F<SECURITY.md> for instructions how to report security vulnerabilities.
+
 =head1 after:AUTHOR
 
 Some of this code was adapted from similar code in L<Dist::Zilla::Plugin::ReadmeAnyFromPod> and

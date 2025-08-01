@@ -5,6 +5,9 @@ Release history for {{ $dist->name }}:
   - Pod::Weaver::Section::Requirements will refer uses to the `cpanfile` or `META.json/yml` files for the full list of
     prerequisites.
 
+  [Bug Fixes]
+  - Fixed a bug with variable parameters in the after_release method.
+
   [Documentation]
   - Added a sample of what the INSTALLATION section looks like.
 

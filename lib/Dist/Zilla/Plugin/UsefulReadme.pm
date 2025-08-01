@@ -141,7 +141,7 @@ has section_fallback => (
 This is a list of C<=head1> sections to be included in the L<README|/filename>.
 It can be specified multiple times using the C<section> option.
 
-This can either be a case-insentitive string, or a regex that implicitly matches the entire heading, surrounded by slashes.
+This can either be a case-insensitive string, or a regex that implicitly matches the entire heading, surrounded by slashes.
 
 The default is equivalent to specifying
 
@@ -233,7 +233,7 @@ This is the file to generate the F<README>.
 
 Allowed values are C<pod>, C<text> (default), C<markdown>, C<gfm> (GitHub-flavoured markdown) or C<custom>.
 
-Note that the L</filename> will have a different default, dependiong on the type.
+Note that the L</filename> will have a different default, depending on the type.
 
 If C<custom> is chosen, then you must specify a L</filename> and L</parser_class>.
 

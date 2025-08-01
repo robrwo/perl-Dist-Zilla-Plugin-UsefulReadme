@@ -11,6 +11,10 @@ use List::Util qw( first );
 use Module::Metadata 1.000015;
 use MooseX::MungeHas;
 use Pod::Elemental::Element::Nested;
+use Pod::Elemental::Element::Pod5::Command;
+use Pod::Elemental::Element::Pod5::Ordinary;
+use Pod::Elemental::Element::Pod5::Region;
+use Pod::Elemental::Element::Pod5::Verbatim;
 use Types::Common qw( Enum NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );

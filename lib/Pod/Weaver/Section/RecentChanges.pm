@@ -11,6 +11,9 @@ use CPAN::Changes::Parser 0.500002;
 use List::Util qw( first );
 use MooseX::MungeHas;
 use Pod::Elemental::Element::Nested;
+use Pod::Elemental::Element::Pod5::Command;
+use Pod::Elemental::Element::Pod5::Ordinary;
+use Pod::Elemental::Element::Pod5::Region;
 use Types::Common qw( NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );
@@ -113,7 +116,6 @@ sub weave_section( $self, $document, $input ) {
     state sub _release_to_pod($entry) {
 
         my $pod = [];
-
         push $pod->@*,
           (
             Pod::Elemental::Element::Pod5::Command->new(

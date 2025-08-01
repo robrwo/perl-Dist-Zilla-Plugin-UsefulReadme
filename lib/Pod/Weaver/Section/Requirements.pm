@@ -10,6 +10,9 @@ with 'Pod::Weaver::Role::Section';
 use MooseX::MungeHas;
 use Perl::PrereqScanner 1.024;
 use Pod::Elemental::Element::Nested;
+use Pod::Elemental::Element::Pod5::Command;
+use Pod::Elemental::Element::Pod5::Ordinary;
+use Pod::Elemental::Element::Pod5::Region;
 use Types::Common qw( NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );

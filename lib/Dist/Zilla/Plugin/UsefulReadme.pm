@@ -486,6 +486,18 @@ sub BUILD( $self, $ ) {
 
 __PACKAGE__->meta->make_immutable;
 
+=head1 SEE ALSO
+
+L<Dist::Zilla>
+
+L<Pod::Weaver>
+
+L<Pod::Readme>
+
+L<Dist::Zilla::Plugin::Readme::Brief>
+
+L<Dist::Zilla::Plugin::ReadmeAnyFromPod>
+
 =head1 after:AUTHOR
 
 Some of this code was adapted from similar code in L<Dist::Zilla::Plugin::ReadmeAnyFromPod> and

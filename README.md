@@ -48,6 +48,7 @@ This module lists the following modules as runtime dependencies:
 - [MooseX::MungeHas](https://metacpan.org/pod/MooseX%3A%3AMungeHas)
 - [PPI::Token::Pod](https://metacpan.org/pod/PPI%3A%3AToken%3A%3APod)
 - [Path::Tiny](https://metacpan.org/pod/Path%3A%3ATiny)
+- [Perl::PrereqScanner](https://metacpan.org/pod/Perl%3A%3APrereqScanner) version 1.024 or later
 - [Pod::Elemental](https://metacpan.org/pod/Pod%3A%3AElemental)
 - [Pod::Simple](https://metacpan.org/pod/Pod%3A%3ASimple) version 3.23 or later
 - [Pod::Weaver::Role::Section](https://metacpan.org/pod/Pod%3A%3AWeaver%3A%3ARole%3A%3ASection)

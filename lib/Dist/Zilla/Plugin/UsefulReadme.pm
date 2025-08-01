@@ -356,7 +356,7 @@ sub after_build( $self, $build ) {
     }
 }
 
-sub after_release( $self, $filename ) {
+sub after_release($self) {
     $self->_create_readme( $self->zilla->root ) if $self->phase eq 'release';
 }
 

@@ -40,6 +40,36 @@ sub mvp_multivalue_args { qw( sections ) }
 
 sub mvp_aliases { return { section => 'sections', fallback => 'section_fallback' } }
 
+=head1 SYNOPSIS
+
+In the F<dist.ini>
+
+    [UsefulReadme]
+    type     = markdown
+    filename = README.md
+    phase    = build
+    location = build
+    section = name
+    section = synopsis
+    section = description
+    section = requirements
+    section = installation
+    section = bugs
+    section = source
+    section = author
+    section = copyright and license
+    section = see also
+
+=head1 DESCRIPTION
+
+This is a L<Dist::Zilla> plugin to filter the main module POD to generate a F<README> file.  It allows developers to
+determine which sections are incorporated into the F<README> rather than dumping the entire main module documentation.
+
+This also supports including special sections for showing the most recent entry in the F<Changes> file, showing the
+runtime requirements, and including installation instructions.
+
+This was written as a successor to L<Pod::Readme> that works better with L<Pod::Weaver>.
+
 =option source
 
 This is the path to the module that will be used for generating the F<README>.

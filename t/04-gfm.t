@@ -6,7 +6,7 @@ use Test::Deep;
 use Test::DZil;
 
 use Path::Tiny qw( path );
-use Pod::Markdown::GitHub;
+use Pod::Markdown::Github;
 
 my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },

@@ -153,6 +153,8 @@ sub weave_section( $self, $document, $input ) {
 
     my $release = $changelog->find_release($version) or return;
 
+    my @entries = _release_to_pod($release) or return;
+
     my $text = "Changes for version " . $version;
     if ( my $date = $release->date ) {
         $text .= sprintf( ' (%s)', substr( $date, 0, 10 ) );
@@ -165,7 +167,7 @@ sub weave_section( $self, $document, $input ) {
             content  => $self->header,
             children => [
                 Pod::Elemental::Element::Pod5::Ordinary->new( { content => $text } ),
-                _release_to_pod($release),
+                @entries,
                 Pod::Elemental::Element::Pod5::Ordinary->new(
                     { content => sprintf( 'See the F<%s> file for more details.', $self->changelog ) }
                 )

@@ -323,7 +323,7 @@ has filename => (
 
 This is a list of regions inside of C<=for> or C<=begin/=end> paragraphs to be included in any sections.
 
-By default, it includes C<stopwords>, L<Pod::Coverage>.
+By default, it includes C<stopwords>, L<Pod::Coverage>, and L<Test::MixedScripts>.
 
 You may need to override this to include other region types, e.g.
 
@@ -346,7 +346,7 @@ has regions => (
     is      => 'lazy',
     isa     => ArrayRef [NonEmptyStr],
     builder => sub($self) {
-        my @regions = qw( stopwords Pod::Coverage );
+        my @regions = qw( stopwords Pod::Coverage Test::MixedScripts );
         return [ map { s/^://r } @regions, $CONFIG{ $self->type }{regions}->@* ];
     }
 );

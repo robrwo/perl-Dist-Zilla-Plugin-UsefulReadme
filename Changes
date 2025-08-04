@@ -1,6 +1,9 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Bug Fixes]
+  - Handle sections with "=for Test::MixedScripts".
+
   [Tests]
   - Added more author tests.
 

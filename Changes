@@ -6,10 +6,14 @@ Release history for {{ $dist->name }}:
 
   - The "pod" type README now works.
 
+  - Handle sections with "=for stopwords" and "=for Pod::Coverage", GH#6.
+
   [Enhancements]
   - Extra "=pod" and "=cut" directives are removed from the returned POD.
 
   - Added encoding option to configure the default text encoding.
+
+  - Added regions option to configure regions to include.
 
   [Other]
   - Fixed prerequisites.

@@ -36,9 +36,9 @@ use namespace::autoclean;
 
 our $VERSION = 'v0.1.3';
 
-sub mvp_multivalue_args { qw( sections ) }
+sub mvp_multivalue_args { qw( regions sections ) }
 
-sub mvp_aliases { return { section => 'sections', fallback => 'section_fallback' } }
+sub mvp_aliases { return { region => 'regions', section => 'sections', fallback => 'section_fallback' } }
 
 =head1 SYNOPSIS
 
@@ -317,6 +317,36 @@ has filename => (
     }
 );
 
+=option regions
+
+This is a list of regions inside of C<=for> or C<=begin/=end> paragraphs to be included in any sections.
+
+By default, it includes C<stopwords>, L<Pod::Coverage>.
+
+You may need to override this to include other region types, e.g.
+
+    type = markdown
+    region = markdown
+    region = stopwords
+    region = Pod::Coverage
+
+Note that this is not updated automatically from the L</type> because how regions are embedded in POD varies too widely
+to assume that it is always safe to include arbitrary regions with the same name.
+
+The C<readme> region is I<not> included since that has a special meaning to indicate sections that are included only in
+the F<README> file.
+
+=cut
+
+has regions => (
+    is      => 'lazy',
+    isa     => ArrayRef [NonEmptyStr],
+    builder => sub($self) {
+        my @regions = qw( stopwords Pod::Coverage );
+        return [ map { s/^://r } @regions, $CONFIG{ $self->type }{regions}->@* ];
+    }
+);
+
 sub gather_files($self) {
     my $filename = $self->filename;
 
@@ -402,12 +432,17 @@ sub _generate_raw_pod($self) {
     my $doc = Pod::Elemental->read_string($bytes);
     Pod::Elemental::Transformer::Pod5->new->transform_node($doc);
 
+    my %regions = map { $_ => 1 } $self->regions->@*;
+
     my $nester = Pod::Elemental::Transformer::Nester->new(
         {
             top_selector      => Pod::Elemental::Selectors::s_command('head1'),
             content_selectors => [
                 Pod::Elemental::Selectors::s_flat(),
                 Pod::Elemental::Selectors::s_command( [qw(head2 head3 head4 over item back pod cut)] ),
+                sub($para) {
+                    return $para && $para->isa("Pod::Elemental::Element::Pod5::Region") && $regions{ $para->format_name };
+                }
             ],
         },
     );

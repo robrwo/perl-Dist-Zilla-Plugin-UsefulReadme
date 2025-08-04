@@ -123,7 +123,7 @@ has location => (
 
 =option encoding
 
-The encoding of the POD. Defaults to C<utf8>.  See L<Encoding::Supported>.
+The encoding of the POD. Defaults to C<utf8>.  See L<Encode::Supported>.
 
 This was added in v0.2.0.
 

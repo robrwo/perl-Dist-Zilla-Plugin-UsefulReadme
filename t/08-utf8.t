@@ -13,6 +13,10 @@ use Pod::Markdown::Github;
 
 use open ':encoding(UTF-8)';
 
+=for Test::MixedScripts Latin,Common,Katakana
+
+=cut
+
 my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
     {

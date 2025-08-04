@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Tests]
+  - Added more author tests.
 
 v0.2.0    2025-08-04 17:05:24+01:00 Europe/London
   [Bug Fixes]

@@ -125,6 +125,8 @@ has location => (
 
 The encoding of the POD. Defaults to C<utf8>.  See L<Encoding::Supported>.
 
+This was added in v0.2.0.
+
 =cut
 
 has encoding => (
@@ -335,6 +337,8 @@ to assume that it is always safe to include arbitrary regions with the same name
 
 The C<readme> region is I<not> included since that has a special meaning to indicate sections that are included only in
 the F<README> file.
+
+This was added in v0.2.0.
 
 =cut
 

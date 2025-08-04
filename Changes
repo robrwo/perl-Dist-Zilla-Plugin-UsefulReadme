@@ -4,6 +4,8 @@ Release history for {{ $dist->name }}:
   [Bug Fixes]
   - No Recent Changes section will be added if there are no entries, GH#5.
 
+  - The "pod" type README now works.
+
   [Other]
   - Fixed prerequisites.
 

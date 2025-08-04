@@ -28,7 +28,7 @@ use Pod::Elemental::Document;
 use Pod::Elemental::Transformer::Pod5;
 use Pod::Elemental::Transformer::Nester;
 use Pod::Elemental::Selectors;
-use Types::Common qw( ArrayRef Bool CodeRef Enum NonEmptyStr StrMatch );
+use Types::Common qw( ArrayRef Bool CodeRef Enum Maybe NonEmptyStr StrMatch );
 
 use experimental qw( lexical_subs postderef signatures );
 
@@ -253,33 +253,40 @@ This is the POD parser class, based on the L</type>.
 
 has parser_class => (
     is => 'lazy',
-    isa => StrMatch[ qr/^[^\W\d]\w*(?:::\w+)*\z/as ], # based on Params::Util _CLASS;
+    isa => Maybe[ StrMatch[ qr/^[^\W\d]\w*(?:::\w+)*\z/as ] ], # based on Params::Util _CLASS;
     builder => sub($self) {
        return $CONFIG{ $self->type }{prereqs}[0];
     }
 );
 
 has _parser => (
-    is      => 'lazy',
-    isa     => CodeRef,
+    is       => 'lazy',
+    isa      => CodeRef,
     init_arg => undef,
-    builder => sub($self) {
+    builder  => sub($self) {
         my $prereqs = $CONFIG{ $self->type }{prereqs};
-        my $class = $self->parser_class;
-        if ($class ne $prereqs->[0]) {
-          use_module($class);
+        my $class   = $self->parser_class;
+        if ($class) {
+            if ( $class ne $prereqs->[0] ) {
+                use_module($class);
+            }
+            else {
+                foreach my $prereq ( pairs $prereqs->@* ) {
+                    use_module( $prereq->[0], $prereq->[1] );
+                }
+            }
+            return sub($pod) {
+                my $parser = $class->new();
+                $parser->output_string( \my $content );
+                $parser->parse_characters(1);
+                $parser->parse_string_document($pod);
+                return $content;
+            }
         }
         else {
-          foreach my $prereq ( pairs $prereqs->@* ) {
-            use_module( $prereq->[0], $prereq->[1] );
-          }
-        }
-        return sub($pod) {
-            my $parser = $class->new();
-            $parser->output_string( \my $content );
-            $parser->parse_characters(1);
-            $parser->parse_string_document($pod);
-            return $content;
+            return sub($pod) {
+                return $pod;
+            }
         }
     }
 );

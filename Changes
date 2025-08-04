@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+
+v0.2.0    2025-08-04 17:05:24+01:00 Europe/London
   [Bug Fixes]
   - No Recent Changes section will be added if there are no entries, GH#5.
 

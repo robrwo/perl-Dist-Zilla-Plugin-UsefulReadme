@@ -37,7 +37,9 @@ on 'test' => sub {
   requires "Test::DZil" => "0";
   requires "Test::Deep" => "0";
   requires "Test::More" => "0";
+  requires "open" => "0";
   requires "strict" => "0";
+  requires "utf8" => "0";
   requires "warnings" => "0";
 };
 

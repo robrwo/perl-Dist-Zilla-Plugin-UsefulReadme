@@ -1,3 +1,6 @@
+
+use utf8;
+
 use v5.20;
 use warnings;
 
@@ -7,6 +10,8 @@ use Test::DZil;
 
 use Path::Tiny qw( path );
 use Pod::Markdown::Github;
+
+use open ':encoding(UTF-8)';
 
 my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
@@ -33,7 +38,7 @@ CHANGES
                 ['MakeMaker'],      #
                 ['CPANFile'],       #
                 ['NextRelease'],    #
-                [ 'UsefulReadme', { type => 'pod', encoding => 'latin1' } ],
+                [ 'UsefulReadme', { type => 'markdown' } ],
             ),
             path(qw( source lib/DZT/Sample.pm)) => <<'MODULE',
 
@@ -66,7 +71,11 @@ None, really. This is for testing.
 
 =head1 AUTHOR
 
-E. Xavier Ample <example@example.org>
+E. Xavier Ample ランダムテキスト <example@example.org>
+
+=head1 CONTRIBUTORS
+
+More ランダムテキスト <hello@example.com>
 
 =cut
 
@@ -85,7 +94,7 @@ $tzil->build;
 
 # use DDP; p $tzil;
 
-my $file = path( $tzil->tempdir, "build", "README.pod" );
+my $file = path( $tzil->tempdir, "build", "README.mkdn" );
 
 ok $file->exists, $file->basename . " exists";
 

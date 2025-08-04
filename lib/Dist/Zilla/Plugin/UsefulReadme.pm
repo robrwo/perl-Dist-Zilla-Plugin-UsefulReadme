@@ -121,6 +121,18 @@ has location => (
     default => 'build',
 );
 
+=option encoding
+
+The encoding of the POD. Defaults to C<utf8>.  See L<Encoding::Supported>.
+
+=cut
+
+has encoding => (
+    is      => 'ro',
+    isa     => NonEmptyStr,
+    default => 'utf8',
+);
+
 =option section_fallback
 
 If one of the L</sections> does not exist in the POD, then generate one for the F<README>.
@@ -438,7 +450,8 @@ sub _generate_raw_pod($self) {
         return;
     }
 
-    return join( "\n", map { _get_section($_) } $self->sections->@* ) =~ s/^=(cut|pod)\n+//gmr;
+    my $preamble = "=encoding " . $self->encoding . "\n";
+    return join( "\n", $preamble, map { _get_section($_) } $self->sections->@* ) =~ s/^=(cut|pod)\n+//gmr;;
 }
 
 sub _fake_weaver_section( $self, $class, $args = { } ) {

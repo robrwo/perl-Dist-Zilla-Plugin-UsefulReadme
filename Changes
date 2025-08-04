@@ -9,6 +9,8 @@ Release history for {{ $dist->name }}:
   [Enhancements]
   - Extra "=pod" and "=cut" directives are removed from the returned POD.
 
+  - Added encoding option to configure the default text encoding.
+
   [Other]
   - Fixed prerequisites.
 

@@ -36,10 +36,16 @@ This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A
 
 # RECENT CHANGES
 
-Changes for version v0.1.3 (2025-08-04)
+Changes for version v0.2.0 (2025-08-04)
 
 - Bug Fixes
     - No Recent Changes section will be added if there are no entries, GH#5.
+    - The "pod" type README now works.
+    - Handle sections with "=for stopwords" and "=for Pod::Coverage", GH#6.
+- Enhancements
+    - Extra "=pod" and "=cut" directives are removed from the returned POD.
+    - Added encoding option to configure the default text encoding.
+    - Added regions option to configure regions to include.
 - Other
     - Fixed prerequisites.
     - Reformatted test scripts.

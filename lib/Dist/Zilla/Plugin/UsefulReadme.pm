@@ -185,6 +185,31 @@ This will also include C<=head1> sections in L</regions> marked as C<readme>, no
 
     =end :readme
 
+If you want to amend one of the generated fallback sections akin to L<Pod::Weaver::Plugin::AppendPrepend>, you must
+specify them inside of C<readme> regions.
+
+To append something to the end of a generated section:
+
+    =begin :readme
+
+    =head1 append:INSTALLATION
+
+    Remember to bring a towel.
+
+    =end :readme
+
+To prepend something to the beginning of a generated section:
+
+    =begin :readme
+
+    =head1 prepend:REQUIREMENTS
+
+    This requires L<libexample|http://www.example.org> to be installed on your system.
+
+    =end :readme
+
+Note that multiple append and prepend blocks must be in separate region blocks.
+
 =cut
 
 has sections => (
@@ -457,32 +482,45 @@ sub _generate_raw_pod($self) {
     for my $sec ( grep { Pod::Elemental::Selectors::s_command( head1 => $_ ) } @nodes ) {
         my $heading = fc( $sec->content );
         next if $sections->exists($heading);
-        $sections->set( $heading => $sec->as_pod_string );
+        $sections->set( $heading => [$sec] );
     }
 
     for my $readme ( grep { Pod::Elemental::Selectors::s_command( begin => $_ ) && $_->format_name =~ /^:?readme$/ } @nodes ) {
-        if ( my $found = first { Pod::Elemental::Selectors::s_command( head1 => $_ ) } $readme->children->@* ) {
+        my ( $found, @children ) = $readme->children->@*;
+
+        if ( Pod::Elemental::Selectors::s_command( head1 => $found ) ) {
             my $heading = fc( $found->content );
             next if $sections->exists($heading);
-            $sections->set( $heading => join( "", map { $_->as_pod_string } $readme->children->@* ) );
+            $sections->set( $heading => \@children );
         }
     }
 
     my sub _get_section($heading) {
 
         if ( my $pod = $sections->get( fc $heading ) ) {
-            return $pod;
+            return $pod->@*;
         }
         elsif ( my ($re) = $heading =~ m|\A/(.+)/\z| ) {
             my $check = sub($key) { return $key =~ qr/\A(?:${re})\z/i };
             for my $key ( $sections->keys ) {
-                return $sections->get($key) if $check->($key);
+              if  ( $check->($key) ) {
+                if ( $pod = $sections->get($key) ) {
+                  return $pod->@*;
+                }
+              }
             }
         }
         elsif ( $self->section_fallback ) {
             my $method = sprintf( '_generate_pod_for_%s', lc( $heading =~ s/\W+/_/gr ) );
             if ( $self->can($method) ) {
-                return $self->$method;
+                my ($pod) = $self->$method or return;
+                if ( my $pre = $sections->get( "prepend:" . fc($heading) ) ) {
+                    unshift $pod->children->@*, $pre->@*;
+                }
+                if ( my $post = $sections->get( "append:" . fc($heading) ) ) {
+                    push $pod->children->@*, $post->@*;
+                }
+                return ($pod);
             }
         }
 
@@ -490,7 +528,13 @@ sub _generate_raw_pod($self) {
     }
 
     my $preamble = "=encoding " . $self->encoding . "\n";
-    return join( "\n", $preamble, map { _get_section($_) } $self->sections->@* ) =~ s/^=(cut|pod)\n+//gmr;;
+    return join(
+        "\n",
+        $preamble,                    #
+        map { $_->as_pod_string }     #
+          map { _get_section($_) }    #
+          $self->sections->@*
+    );
 }
 
 sub _fake_weaver_section( $self, $class, $args = { } ) {
@@ -510,7 +554,7 @@ sub _fake_weaver_section( $self, $class, $args = { } ) {
     my $section = $class->new( plugin_name => ref($self), weaver => $weaver, logger => $zilla->logger );
     $section->weave_section( $doc, { zilla => $zilla, $args->%* } );
 
-    return $doc->as_pod_string;
+    return $doc->children->@*;
 }
 
 sub _generate_pod_for_version($self) {

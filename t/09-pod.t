@@ -75,6 +75,14 @@ sub something() {
 
 1;
 
+=begin :readme
+
+=head1 prepend:REQUIREMENTS
+
+This module requires L<libexample|http://www.example.org>.
+
+=end :readme
+
 MODULE
         }
     }
@@ -90,6 +98,18 @@ my $file = path( $tzil->tempdir, "build", "README.pod" );
 ok $file->exists, $file->basename . " exists";
 
 ok my $text = $file->slurp_raw, "has content";
+
+my $prepended = <<"PREPENDED";
+=head1 REQUIREMENTS
+
+This module requires L<libexample|http://www.example.org>.
+
+This module lists the following modules as runtime dependencies:
+PREPENDED
+
+my $re = quotemeta($prepended);
+
+like $text, qr/^$re/m, "prepend";
 
 note $text;
 

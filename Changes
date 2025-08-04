@@ -1,6 +1,9 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Add support for append/prepend to generated fallback sections, GH#3.
+
   [Bug Fixes]
   - Handle sections with "=for Test::MixedScripts".
 

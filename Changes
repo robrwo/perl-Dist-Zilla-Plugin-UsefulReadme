@@ -6,6 +6,9 @@ Release history for {{ $dist->name }}:
 
   - The "pod" type README now works.
 
+  [Enhancements]
+  - Extra "=pod" and "=cut" directives are removed from the returned POD.
+
   [Other]
   - Fixed prerequisites.
 

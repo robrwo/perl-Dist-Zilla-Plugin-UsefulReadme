@@ -438,7 +438,7 @@ sub _generate_raw_pod($self) {
         return;
     }
 
-    return join( "", map { _get_section($_) } $self->sections->@* );
+    return join( "\n", map { _get_section($_) } $self->sections->@* ) =~ s/^=(cut|pod)\n+//gmr;
 }
 
 sub _fake_weaver_section( $self, $class, $args = { } ) {

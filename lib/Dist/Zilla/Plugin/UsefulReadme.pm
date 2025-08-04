@@ -175,7 +175,7 @@ The default is equivalent to specifying
 The C<version>, C<requirements>, C<installation> and C<recent changes> sections are special.
 If they do not exist in the module POD, then default values will be used for them unless L</section_fallback> is false.
 
-This will also include C<=head1> sections in regions marked as C<readme>, normally used for L<Pod::Readme>:
+This will also include C<=head1> sections in L</regions> marked as C<readme>, normally used for L<Pod::Readme>:
 
     =begin :readme
 

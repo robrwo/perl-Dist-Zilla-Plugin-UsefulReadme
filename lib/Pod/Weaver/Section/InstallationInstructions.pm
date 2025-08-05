@@ -25,12 +25,20 @@ our $VERSION = 'v0.3.1';
 
 =head1 SYNOPSIS
 
-In the F<weaver.ini>
+In the F<weaver.ini>:
 
     [InstallationInstructions]
     header  = INSTALLATION
     builder = Makefile.PL
     region  = :readme
+
+Or in the F<dist.ini> for L<Dist::Zilla>:
+
+    [PodWeaver]
+    [%PodWeaver]
+    InstallationInstructions.header  = INSTALLATION
+    InstallationInstructions.builder = Makefile.PL
+    InstallationInstructions.region  = :readme
 
 =head1 DESCRIPTION
 
@@ -78,7 +86,7 @@ The header to use. It defaults to "INSTALLATION".
 =cut
 
 has header => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => NonEmptySimpleStr,
     default => 'INSTALLATION',
 );
@@ -94,7 +102,7 @@ to make the region available for L<Dist::Zilla::Plugin::UsefulReadme> or L<Pod::
 =cut
 
 has region => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => SimpleStr,
     default => '',
 );
@@ -109,7 +117,7 @@ If unset, it will attempt to guess.  If it cannot guess, the instructions will b
 =cut
 
 has builder => (
-    is        => 'ro',
+    is        => 'rw',
     isa       => Enum [qw( Makefile.PL Build.PL )],
     predicate => 1,
 );
@@ -123,7 +131,7 @@ When false (default), this section will only be added to the main module.
 =cut
 
 has all_modules => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => Bool,
     default => 0,
 );
@@ -134,6 +142,10 @@ sub weave_section( $self, $document, $input ) {
 
     if ( $zilla && !$self->all_modules ) {
         return if $zilla->main_module->name ne $input->{filename};
+    }
+
+    if ( my $stash = $zilla ? $zilla->stash_named('%PodWeaver') : undef ) {
+        $stash->merge_stashed_config($self);
     }
 
     # TODO change to work without zilla

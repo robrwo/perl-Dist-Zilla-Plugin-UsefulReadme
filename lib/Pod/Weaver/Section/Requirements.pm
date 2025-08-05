@@ -30,11 +30,18 @@ our $VERSION = 'v0.3.1';
 
 =head1 SYNOPSIS
 
-In the F<weaver.ini>
+In the F<weaver.ini>:
 
     [Requirements]
     header = REQUIREMENTS
     region = :readme
+
+Or in the F<dist.ini> for L<Dist::Zilla>:
+
+    [PodWeaver]
+    [%PodWeaver]
+    Requirements.header = REQUIREMENTS
+    Requirements.region = :readme
 
 =head1 DESCRIPTION
 
@@ -53,7 +60,7 @@ The header to use. It defaults to "REQUIREMENTS".
 =cut
 
 has header => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => NonEmptySimpleStr,
     default => 'REQUIREMENTS',
 );
@@ -69,7 +76,7 @@ to make the region available for L<Dist::Zilla::Plugin::UsefulReadme> or L<Pod::
 =cut
 
 has region => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => SimpleStr,
     default => '',
 );
@@ -81,7 +88,7 @@ A file that lists metadata about prerequisites. It defaults to C<cpanfile>.
 =cut
 
 has metafile => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => SimpleStr,
     default => 'cpanfile',
 );
@@ -95,7 +102,7 @@ When false (default), this section will only be added to the main module.
 =cut
 
 has all_modules => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => Bool,
     default => 0,
 );
@@ -107,6 +114,10 @@ sub weave_section( $self, $document, $input ) {
     unless ($zilla) {
         $self->log_fatal("missing zilla argument");
         return;
+    }
+
+    if ( my $stash = $zilla ? $zilla->stash_named('%PodWeaver') : undef ) {
+        $stash->merge_stashed_config($self);
     }
 
     my $runtime = $zilla->prereqs->as_string_hash->{runtime}{requires};

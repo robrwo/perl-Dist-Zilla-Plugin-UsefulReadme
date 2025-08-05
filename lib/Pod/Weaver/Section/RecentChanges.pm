@@ -31,6 +31,14 @@ In the F<weaver.ini>
     changelog = Changes
     region    = :readme
 
+Or in the F<dist.ini> for L<Dist::Zilla>:
+
+    [PodWeaver]
+    [%PodWeaver]
+    RecentChanges.header    = RECENT CHANGES
+    RecentChanges.changelog = Changes
+    RecentChanges.region    = :readme
+
 =head1 DESCRIPTION
 
 This is a L<Pod::Weaver> plugin to add a section with the changelog entries for the current version.
@@ -42,7 +50,7 @@ The header to use. It defaults to "RECENT CHANGES".
 =cut
 
 has header => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => NonEmptySimpleStr,
     default => 'RECENT CHANGES',
 );
@@ -54,7 +62,7 @@ The name of the change log. It defaults to "Changes".
 =cut
 
 has changelog => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => NonEmptySimpleStr,
     default => 'Changes',
 );
@@ -71,7 +79,7 @@ the recent changes into the module POD, e.g.
 =cut
 
 has version => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => SimpleStr,
     default => '',
 );
@@ -87,7 +95,7 @@ to make the region available for L<Dist::Zilla::Plugin::UsefulReadme> or L<Pod::
 =cut
 
 has region => (
-    is      => 'lazy',
+    is      => 'rw',
     isa     => SimpleStr,
     default => '',
 );
@@ -101,7 +109,7 @@ When false (default), this section will only be added to the main module.
 =cut
 
 has all_modules => (
-    is      => 'ro',
+    is      => 'rw',
     isa     => Bool,
     default => 0,
 );
@@ -113,6 +121,10 @@ sub weave_section( $self, $document, $input ) {
     unless ($zilla) {
         $self->log_fatal("missing zilla argument");
         return;
+    }
+
+    if ( my $stash = $zilla ? $zilla->stash_named('%PodWeaver') : undef ) {
+        $stash->merge_stashed_config($self);
     }
 
     my $file = first { $_->name eq $self->changelog } $zilla->files->@* or return;

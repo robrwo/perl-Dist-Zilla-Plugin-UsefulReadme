@@ -6,6 +6,9 @@ Release history for {{ $dist->name }}:
     Pod::Weaver::Section::Requirements only update the main module unless the newly added
     all_modules option is true, GH#7.
 
+  - Pod::Weaver::Section::InstallationInstructions, Pod::Weaver::Section::RecentChanges and
+    Pod::Weaver::Section::Requirements can be configured bia the `dist.ini` file, GH#2.
+
   [Bug Fixes]
   - Pass the main_module filename to Pod::Weaver plugins.
 

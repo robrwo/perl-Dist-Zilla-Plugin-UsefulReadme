@@ -36,14 +36,16 @@ This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A
 
 # RECENT CHANGES
 
-Changes for version v0.3.0 (2025-08-05)
+Changes for version v0.4.0 (2025-08-05)
 
 - Enhancements
-    - Add support for append/prepend to generated fallback sections, GH#3.
+    - Pod::Weaver::Section::InstallationInstructions, Pod::Weaver::Section::RecentChanges and Pod::Weaver::Section::Requirements only update the main module unless the newly added all\_modules option is true, GH#7.
+    - Pod::Weaver::Section::InstallationInstructions, Pod::Weaver::Section::RecentChanges and Pod::Weaver::Section::Requirements can be configured bia the \`dist.ini\` file, GH#2.
 - Bug Fixes
-    - Handle sections with "=for Test::MixedScripts".
-- Tests
-    - Added more author tests.
+    - Pass the main\_module filename to Pod::Weaver plugins.
+    - The heading is not dropped when including sections from :readme regions.
+- Documentation
+    - Reorganised Changes for consistency.
 
 See the `Changes` file for more details.
 

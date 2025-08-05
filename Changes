@@ -1,6 +1,13 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Pod::Weaver::Section::InstallationInstructions, Pod::Weaver::Section::RecentChanges and
+    Pod::Weaver::Section::Requirements only update the main module unless the newly added
+    all_modules option is true, GH#7.
+
+  [Bug Fixes]
+  - Pass the main_module filename to Pod::Weaver plugins.
 
 v0.3.0    2025-08-05 13:14:54+01:00 Europe/London
   [Enhancements]

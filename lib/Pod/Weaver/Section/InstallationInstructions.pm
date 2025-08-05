@@ -15,7 +15,7 @@ use Pod::Elemental::Element::Pod5::Command;
 use Pod::Elemental::Element::Pod5::Ordinary;
 use Pod::Elemental::Element::Pod5::Region;
 use Pod::Elemental::Element::Pod5::Verbatim;
-use Types::Common qw( Enum NonEmptySimpleStr SimpleStr );
+use Types::Common qw( Bool Enum NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );
 
@@ -114,9 +114,27 @@ has builder => (
     predicate => 1,
 );
 
+=option all_modules
+
+When true, this section will be added to all modules in the distribution, and not just the main module.
+
+When false (default), this section will only be added to the main module.
+
+=cut
+
+has all_modules => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
+);
+
 sub weave_section( $self, $document, $input ) {
 
     my $zilla = $input->{zilla};
+
+    if ( $zilla && !$self->all_modules ) {
+        return if $zilla->main_module->name ne $input->{filename};
+    }
 
     # TODO change to work without zilla
     my $meta = Module::Metadata->new_from_file( $zilla->main_module->name );

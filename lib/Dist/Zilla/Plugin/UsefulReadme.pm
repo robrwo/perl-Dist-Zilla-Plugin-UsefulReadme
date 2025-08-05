@@ -552,7 +552,7 @@ sub _fake_weaver_section( $self, $class, $args = { } ) {
 
     my $weaver  = Pod::Weaver->new_with_default_config;
     my $section = $class->new( plugin_name => ref($self), weaver => $weaver, logger => $zilla->logger );
-    $section->weave_section( $doc, { zilla => $zilla, $args->%* } );
+    $section->weave_section( $doc, { zilla => $zilla, filename => $zilla->main_module->name, $args->%* } );
 
     return $doc->children->@*;
 }

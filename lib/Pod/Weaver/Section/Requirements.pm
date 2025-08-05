@@ -14,7 +14,7 @@ use Pod::Elemental::Element::Nested;
 use Pod::Elemental::Element::Pod5::Command;
 use Pod::Elemental::Element::Pod5::Ordinary;
 use Pod::Elemental::Element::Pod5::Region;
-use Types::Common qw( NonEmptySimpleStr SimpleStr );
+use Types::Common qw( Bool NonEmptySimpleStr SimpleStr );
 
 use experimental qw( lexical_subs postderef signatures );
 
@@ -84,6 +84,20 @@ has metafile => (
     is      => 'lazy',
     isa     => SimpleStr,
     default => 'cpanfile',
+);
+
+=option all_modules
+
+When true, this section will be added to all modules in the distribution, and not just the main module.
+
+When false (default), this section will only be added to the main module.
+
+=cut
+
+has all_modules => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 0,
 );
 
 sub weave_section( $self, $document, $input ) {

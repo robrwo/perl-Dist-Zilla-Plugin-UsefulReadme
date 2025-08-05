@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+
+v0.3.0    2025-08-05 13:14:54+01:00 Europe/London
   [Enhancements]
   - Add support for append/prepend to generated fallback sections, GH#3.
 

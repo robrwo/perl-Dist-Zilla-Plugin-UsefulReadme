@@ -12,6 +12,8 @@ Release history for {{ $dist->name }}:
   [Bug Fixes]
   - Pass the main_module filename to Pod::Weaver plugins.
 
+  - The heading is not dropped when including sections from :readme regions.
+
   [Documentation]
   - Reorganised Changes for consistency.
 

@@ -491,12 +491,11 @@ sub _generate_raw_pod($self) {
         if ( Pod::Elemental::Selectors::s_command( head1 => $found ) ) {
             my $heading = fc( $found->content );
             next if $sections->exists($heading);
-            $sections->set( $heading => \@children );
+            $sections->set( $heading => [$found, @children ] );
         }
     }
 
     my sub _get_section($heading) {
-
         if ( my $pod = $sections->get( fc $heading ) ) {
             return $pod->@*;
         }

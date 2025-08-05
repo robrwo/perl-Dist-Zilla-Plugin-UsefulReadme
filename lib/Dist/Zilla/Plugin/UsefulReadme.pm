@@ -491,7 +491,8 @@ sub _generate_raw_pod($self) {
         if ( Pod::Elemental::Selectors::s_command( head1 => $found ) ) {
             my $heading = fc( $found->content );
             next if $sections->exists($heading);
-            $sections->set( $heading => [$found, @children ] );
+            unshift @children, $found unless $heading =~ /\A(?:append|prepend):/;
+            $sections->set( $heading => \@children );
         }
     }
 

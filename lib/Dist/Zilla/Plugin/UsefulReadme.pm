@@ -571,7 +571,6 @@ sub _generate_pod_for_requirements($self) {
     return $self->_fake_weaver_section(
         "Pod::Weaver::Section::Requirements",
         {
-            filename     => $file->name,
             ppi_document => $self->ppi_document_for_file($file),
         }
     );

@@ -1,6 +1,9 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Pod::Weaver::Section::Requirements also looks for `cpmfile` and `metafile` when no metafile is specified.
+
   [Tests]
   - Fix prerequisites for tests.
 

@@ -55,6 +55,7 @@ on 'configure' => sub {
 
 on 'develop' => sub {
   requires "Pod::Coverage::TrustPod" => "0";
+  requires "Pod::Wordlist" => "0";
   requires "Software::Security::Policy::Individual" => "0.10";
   requires "Test2::Tools::Basic" => "1.302200";
   requires "Test::CPAN::Changes" => "0";
@@ -62,10 +63,11 @@ on 'develop' => sub {
   requires "Test::DistManifest" => "0";
   requires "Test::EOF" => "0";
   requires "Test::EOL" => "0";
+  requires "Test::Fixme" => "0";
   requires "Test::Kwalitee" => "1.21";
   requires "Test::MinimumVersion" => "0";
   requires "Test::MixedScripts" => "v0.3.0";
-  requires "Test::More" => "0.88";
+  requires "Test::More" => "0.94";
   requires "Test::NoTabs" => "0";
   requires "Test::Perl::Critic" => "0";
   requires "Test::Pod" => "1.41";
@@ -75,4 +77,6 @@ on 'develop' => sub {
   requires "Test::Spelling" => "0.17";
   requires "Test::TrailingSpace" => "0.0203";
   requires "Test::Vars" => "0.015";
+  requires "strict" => "0";
+  requires "warnings" => "0";
 };

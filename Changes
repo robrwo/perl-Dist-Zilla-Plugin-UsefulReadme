@@ -7,6 +7,8 @@ Release history for {{ $dist->name }}:
   [Tests]
   - Fix prerequisites for tests.
 
+  - Move author tests into the xt directory.
+
   [Toolchain]
   - Set up GitHub workflow for testing. (Thanks @atoomic)
 

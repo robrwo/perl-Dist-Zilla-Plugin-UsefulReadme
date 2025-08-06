@@ -27,9 +27,10 @@ jobs:
         uses: perl-actions/install-with-cpm@v1
         with:
           cpanfile: "cpanfile"
-      - run: perl Makefile.PL
-      - run: make
-      - run: make test
+      - run: dzil build
+      - run: dzil test --all
+      - run: dzil run perl Makefile.PL
+      - run: dzil run make disttest
 
   perl-versions:
     runs-on: ubuntu-latest

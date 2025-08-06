@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Tests]
+  - Fix prerequisites for tests.
 
 v0.4.0    2025-08-05 17:11:19+01:00 Europe/London
   [Enhancements]

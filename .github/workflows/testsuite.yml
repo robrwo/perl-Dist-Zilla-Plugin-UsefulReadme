@@ -27,7 +27,7 @@ jobs:
         uses: perl-actions/install-with-cpm@v1
         with:
           cpanfile: "cpanfile"
-      - run: dzil authordeps | xargs cpm install
+      - run: dzil authordeps | cpanm
       - run: dzil build
       - run: dzil test --all
       - run: dzil run perl Makefile.PL

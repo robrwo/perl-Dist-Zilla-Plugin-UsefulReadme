@@ -4,6 +4,9 @@ Release history for {{ $dist->name }}:
   [Tests]
   - Fix prerequisites for tests.
 
+  [Toolchain]
+  - Set up GitHub workflow for testing. (Thanks @atoomic)
+
 v0.4.1    2025-08-06 08:41:07+01:00 Europe/London
   [Tests]
   - Fix prerequisites for tests.

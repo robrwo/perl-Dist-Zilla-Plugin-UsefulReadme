@@ -69,3 +69,7 @@ jobs:
       - name: Install Dependencies
         run: cpm install -g --show-build-log-on-failure
       - run: prove -lr
+
+  dzil-build-and-test:
+     name: Dist::Zilla build and test
+     uses: rjbs/dzil-actions/.github/workflows/dzil-matrix.yaml@main

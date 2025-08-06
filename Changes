@@ -4,6 +4,10 @@ Release history for {{ $dist->name }}:
   [Enhancements]
   - Pod::Weaver::Section::Requirements also looks for `cpmfile` and `metafile` when no metafile is specified.
 
+  [Bug Fixes]
+  - Pod::Weaver::Section::InstallationInstructions consistently chooses Build.PL when that and Makefile.PL are
+    both present. GH#9.
+
   [Documentation]
   - Fixed wording in Changes.
 

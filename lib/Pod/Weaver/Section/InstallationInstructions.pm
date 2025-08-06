@@ -183,9 +183,11 @@ sub weave_section( $self, $document, $input ) {
     my @files = $zilla ? $zilla->files->@* : ();
 
     if ( !$builder && $zilla ) {
-
-        if ( my $type = first { $_->name =~ /\A(?:Build|Makefile)\.PL\z/ } @files ) {
-            $builder = $type->name;
+        for my $name ( qw( Build.PL Makefile.PL ) ) {
+            if ( my $type = first { $_->name eq $name } @files ) {
+                $builder = $name;
+                last;
+            }
         }
     }
 

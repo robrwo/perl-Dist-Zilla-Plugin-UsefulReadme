@@ -40,9 +40,12 @@ Changes for version v0.4.2 (2025-08-06)
 
 - Enhancements
     - Pod::Weaver::Section::Requirements also looks for \`cpmfile\` and \`metafile\` when no metafile is specified.
+- Documentation
+    - Fixed wording in Changes.
 - Tests
-    - Fix prerequisites for tests.
-    - Move author tests into the xt directory.
+    - Fixed prerequisites for tests.
+    - Moved author tests into the xt directory.
+    - Add more author tests.
 - Toolchain
     - Set up GitHub workflow for testing. (Thanks @atoomic)
     - Ensure local-lib is not included in distribution.

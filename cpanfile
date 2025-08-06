@@ -29,6 +29,7 @@ on 'build' => sub {
 
 on 'test' => sub {
   requires "Dist::Zilla::Plugin::PodWeaver" => "0";
+  requires "Dist::Zilla::Stash::PodWeaver" => "0";
   requires "File::Spec" => "0";
   requires "Module::Metadata" => "1.000015";
   requires "Pod::Markdown" => "3.000";

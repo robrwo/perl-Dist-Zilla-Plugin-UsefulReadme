@@ -12,6 +12,8 @@ Release history for {{ $dist->name }}:
 
   - Moved author tests into the xt directory.
 
+  - Add more author tests.
+
   [Toolchain]
   - Set up GitHub workflow for testing. (Thanks @atoomic)
 

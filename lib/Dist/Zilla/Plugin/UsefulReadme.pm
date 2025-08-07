@@ -34,7 +34,7 @@ use experimental qw( lexical_subs postderef signatures );
 
 use namespace::autoclean;
 
-our $VERSION = 'v0.4.3';
+our $VERSION = 'v0.4.4';
 
 sub mvp_multivalue_args { qw( regions sections ) }
 

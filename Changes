@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+
+v0.4.2    2025-08-07 07:43:05+01:00 Europe/London
   [Enhancements]
   - Pod::Weaver::Section::Requirements also looks for `cpmfile` and `metafile` when no metafile is specified.
 

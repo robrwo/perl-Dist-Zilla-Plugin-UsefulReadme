@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Bug Fixes]
+  - Pod::Weaver::Section::Requirements also looks for `cpm.yml` and not `cpmfile` or `metafile`.
 
 v0.4.2    2025-08-07 07:43:05+01:00 Europe/London
   [Enhancements]

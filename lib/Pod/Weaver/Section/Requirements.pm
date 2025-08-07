@@ -179,7 +179,7 @@ sub weave_section( $self, $document, $input ) {
     );
 
     my %files = map { $_->name => 1 } $zilla->files->@*;
-    my @metafiles = grep { $_ ne '' } ( $self->metafile, qw( cpmfile cpanfile metafile META.json META.yml ) );
+    my @metafiles = grep { $_ ne '' } ( $self->metafile, qw( cpm.yml cpanfile META.json META.yml ) );
     if ( my $file = first { $files{$_} } @metafiles ) {
         push $res->children->@*,
           Pod::Elemental::Element::Pod5::Ordinary->new(

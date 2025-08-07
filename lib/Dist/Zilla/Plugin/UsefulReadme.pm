@@ -444,7 +444,6 @@ sub _create_readme( $self, $dir ) {
 }
 
 sub _generate_readme_content($self) {
-    my $config  = $CONFIG{ $self->type };
     return $self->_parser->( $self->_generate_raw_pod );
 }
 

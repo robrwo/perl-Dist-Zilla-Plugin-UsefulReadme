@@ -123,8 +123,6 @@ sub weave_section( $self, $document, $input ) {
     my $runtime = $zilla->prereqs->as_string_hash->{runtime}{requires};
 
     unless ($runtime) {
-      my $file = $input->{filename};
-
       my $scanner = Perl::PrereqScanner->new;
       my $prereqs = $scanner->scan_ppi_document($input->{ppi_document} );
 

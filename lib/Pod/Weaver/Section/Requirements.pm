@@ -116,6 +116,10 @@ sub weave_section( $self, $document, $input ) {
         return;
     }
 
+    if ( $zilla && !$self->all_modules ) {
+        return if $zilla->main_module->name ne $input->{filename};
+    }
+
     if ( my $stash = $zilla ? $zilla->stash_named('%PodWeaver') : undef ) {
         $stash->merge_stashed_config($self);
     }

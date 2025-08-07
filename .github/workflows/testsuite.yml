@@ -27,7 +27,7 @@ jobs:
         uses: perl-actions/install-with-cpm@v1
         with:
           cpanfile: "cpanfile"
-      - run: prove -lr
+      - run: prove -lr t
 
   perl-versions:
     runs-on: ubuntu-latest
@@ -68,8 +68,13 @@ jobs:
       - run: perl -V
       - name: Install Dependencies
         run: cpm install -g --show-build-log-on-failure
-      - run: prove -lr
+      - run: prove -lr t
+      - name: Install All Dependencies
+        run: cpm install -g --with-all --show-build-log-on-failure
+      - run: prove -lr t xt
 
   dzil-build-and-test:
      name: Dist::Zilla build and test
      uses: rjbs/dzil-actions/.github/workflows/dzil-matrix.yaml@main
+     with:
+       install-dzil-from-cpan: true

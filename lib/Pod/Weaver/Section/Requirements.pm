@@ -107,6 +107,21 @@ has all_modules => (
     default => 0,
 );
 
+=option guess_prereqs
+
+If the runtime prerequsites are not available from L<Dist::Zilla>, then when this attribute is true, this plugin will
+use L<Perl::PrereqScanner> to guess the prerequisites.
+
+This was added in version v0.4.4, and is now false by default. (Previous versions guessed automatically.)
+
+=cut
+
+has guess_prereqs => (
+    is      => 'rw',
+    isa     => Bool,
+    default => 0,
+);
+
 sub weave_section( $self, $document, $input ) {
 
     my $zilla = $input->{zilla};
@@ -126,10 +141,9 @@ sub weave_section( $self, $document, $input ) {
 
     my $runtime = $zilla->prereqs->as_string_hash->{runtime}{requires};
 
-    unless ($runtime) {
+    if ( !$runtime && $self->guess_prereqs ) {
       my $scanner = Perl::PrereqScanner->new;
       my $prereqs = $scanner->scan_ppi_document($input->{ppi_document} );
-
       $runtime = $prereqs->as_string_hash;
     }
 

@@ -85,6 +85,8 @@ has region => (
 
 A file that lists metadata about prerequisites. It defaults to C<cpanfile>.
 
+If this file exists in the distribution, then the text will recommend that users see that file.
+
 =cut
 
 has metafile => (

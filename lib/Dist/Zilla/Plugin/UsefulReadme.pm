@@ -402,7 +402,7 @@ sub register_prereqs($self) {
                 phase => 'develop',
                 type  => 'requires',
             },
-            ref($self) => $VERSION,
+            ref($self) => 'v0.4.3', # baseline features and bug fixes
             $prereqs->@*
         );
     }

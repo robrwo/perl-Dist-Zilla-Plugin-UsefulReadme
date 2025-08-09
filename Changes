@@ -5,6 +5,8 @@ Release history for {{ $dist->name }}:
   - Pod::Weaver::Section::Requirements changelog can be blank, so that it will use the same file from the NextRelease
     plugin.
 
+  - Added dump_config support, GH#10.
+
   [Incompatabilities]
   - Pod::Weaver::Section::Requirements no longer guesses the prerequisites automatically. The added guess_prereqs option
     will enable this. This should only affect when it is not used with the UsefulReadme plugin. (Thanks @leont)

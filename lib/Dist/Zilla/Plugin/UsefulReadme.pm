@@ -376,6 +376,18 @@ has regions => (
     }
 );
 
+around dump_config => sub( $orig, $self ) {
+    my $config = $self->$orig;
+    $config->{ +__PACKAGE__ } = {
+        (
+            map { $_ => $self->$_ }
+              qw( source phase location encoding section_fallback sections type parser_class filename regions )
+        ),
+        blessed($self) ne __PACKAGE__ ? ( version => $VERSION ) : (),
+    };
+    return $config;
+};
+
 sub gather_files($self) {
     my $filename = $self->filename;
 

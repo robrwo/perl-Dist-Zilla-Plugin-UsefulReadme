@@ -7,7 +7,7 @@ Release history for {{ $dist->name }}:
 
   [Incompatabilities]
   - Pod::Weaver::Section::Requirements no longer guesses the prerequisites automatically. The added guess_prereqs option
-    will enable this.
+    will enable this.  (This should only affect when it is not used with the UsefulReadme plugin.)
 
   [Documentation]
   - Pod::Weaver::Section::Requirements metafile notes how the attribute is used.

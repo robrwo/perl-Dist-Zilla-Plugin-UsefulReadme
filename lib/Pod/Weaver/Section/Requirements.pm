@@ -111,7 +111,7 @@ has all_modules => (
 
 =option guess_prereqs
 
-If the runtime prerequsites are not available from L<Dist::Zilla>, then when this attribute is true, this plugin will
+If the runtime prerequisites are not available from L<Dist::Zilla>, then when this attribute is true, this plugin will
 use L<Perl::PrereqScanner> to guess the prerequisites.
 
 This was added in version v0.4.4, and is now false by default. (Previous versions guessed automatically.)

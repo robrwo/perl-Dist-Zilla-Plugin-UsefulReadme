@@ -1,12 +1,19 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Pod::Weaver::Section::Requirements changelog can be blank, so that it will use the same file from the NextRelease
+    plugin.
+
   [Incompatabilities]
   - Pod::Weaver::Section::Requirements no longer guesses the prerequisites automatically. The added guess_prereqs option
     will enable this.
 
   [Documentation]
   - Pod::Weaver::Section::Requirements metafile notes how the attribute is used.
+
+  [Tests]
+  - Add more tests.
 
 v0.4.3    2025-08-07 13:31:13+01:00 Europe/London
   [Bug Fixes]

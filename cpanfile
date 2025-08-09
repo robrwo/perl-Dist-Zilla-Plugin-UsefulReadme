@@ -19,7 +19,7 @@ requires "Types::Common" => "0";
 requires "experimental" => "0";
 requires "namespace::autoclean" => "0";
 requires "perl" => "v5.20.0";
-recommends "Pod::Weaver" => "0";
+recommends "Pod::Weaver" => "4.016";
 recommends "Pod::Weaver::Section::Version" => "0";
 
 on 'build' => sub {
@@ -36,6 +36,7 @@ on 'test' => sub {
   requires "Pod::Markdown::Github" => "0";
   requires "Pod::Simple::Text" => "3.23";
   requires "Pod::Text" => "0";
+  requires "Pod::Weaver" => "4.016";
   requires "Test::DZil" => "0";
   requires "Test::Deep" => "0";
   requires "Test::More" => "0";

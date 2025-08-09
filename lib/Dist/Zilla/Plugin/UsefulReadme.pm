@@ -541,7 +541,7 @@ sub _fake_weaver_section( $self, $class, $args = { } ) {
     # Note: ideally we would add these as development requirements but by the time this is run (after building or
     # release), the requirements have already been finalized.
 
-    # RECOMMEND PREREQ: Pod::Weaver
+    # RECOMMEND PREREQ: Pod::Weaver 4.016
     use_module("Pod::Weaver");
     use_module($class);
 

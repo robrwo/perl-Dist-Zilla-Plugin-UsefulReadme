@@ -60,6 +60,7 @@ on 'develop' => sub {
   requires "Software::Security::Policy::Individual" => "0.10";
   requires "Test2::Tools::Basic" => "1.302200";
   requires "Test::CPAN::Changes" => "0.19";
+  requires "Test::CPAN::Meta" => "0";
   requires "Test::CleanNamespaces" => "0.15";
   requires "Test::DistManifest" => "0";
   requires "Test::EOF" => "0";

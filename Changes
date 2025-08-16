@@ -1,6 +1,9 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Added add_prereqs option.
+
   [Tests]
   - Add more author tests.
 

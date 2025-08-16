@@ -376,6 +376,19 @@ has regions => (
     }
 );
 
+=option add_prereqs
+
+Add this plugin and modules additional modules needed for the L</type> or L</sections> as developer prerequsites.
+Defauls to true.
+
+=cut
+
+has add_prereqs => (
+    is      => 'ro',
+    isa     => Bool,
+    default => 1,
+);
+
 around dump_config => sub( $orig, $self ) {
     my $config = $self->$orig;
     $config->{ +__PACKAGE__ } = {
@@ -407,6 +420,8 @@ sub gather_files($self) {
 }
 
 sub register_prereqs($self) {
+
+    return unless $self->add_prereqs;
 
     if ( my $prereqs = $CONFIG{ $self->type }{prereqs} ) {
         $self->zilla->register_prereqs(

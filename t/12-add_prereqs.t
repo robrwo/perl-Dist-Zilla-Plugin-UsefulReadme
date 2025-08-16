@@ -15,7 +15,7 @@ my $tzil = Builder->from_config(
     { dist_root => 'does-not-exist' },
     {
         add_files => {
-           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], [ 'UsefulReadme' ], ['MakeMaker'] ),
+           path(qw( source dist.ini )) => simple_ini( ['AutoPrereqs'], ['GatherDir'], [ 'UsefulReadme', { add_prereqs => 0 } ], ['MakeMaker'] ),
            path(qw( source lib/DZT/Sample.pm)) => << 'MODULE',
 
 package DZT::Sample;
@@ -123,13 +123,7 @@ cmp_deeply $plugin->dump_config, {
   },
   "dump_config";
 
-cmp_deeply $tzil->distmeta->{prereqs}{develop}{requires},
-  superhashof(
-    {
-        "Dist::Zilla::Plugin::UsefulReadme" => "v0.4.3",
-        "Pod::Simple::Text"                 => '3.23',
-    }
-  ),
-  "add_prereqs";
+my $devreqs = $tzil->distmeta->{prereqs}{develop}{requires};
+ok !exists $devreqs->{"Dist::Zilla::Plugin::UsefulReadme"}, "add_prereqs";
 
 done_testing;

@@ -378,8 +378,8 @@ has regions => (
 
 =option add_prereqs
 
-Add this plugin and modules additional modules needed for the L</type> or L</sections> as developer prerequsites.
-Defauls to true.
+Add this plugin and modules additional modules needed for the L</type> or L</sections> as developer requirements.
+Defaults to true.
 
 =cut
 

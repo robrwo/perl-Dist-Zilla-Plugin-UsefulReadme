@@ -36,10 +36,8 @@ This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A
 
 # RECENT CHANGES
 
-Changes for version v0.5.1 (2025-08-16)
+Changes for version v0.5.2 (2025-08-18)
 
-- Enhancements
-    - Added add\_prereqs option.
 - Tests
     - Add more author tests.
 

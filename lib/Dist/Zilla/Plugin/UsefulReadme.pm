@@ -160,11 +160,13 @@ This can either be a case-insensitive string, or a regex that implicitly matches
 The default is equivalent to specifying
 
     section = name
+    section = status
     section = synopsis
     section = description
     section = recent changes
     section = requirements
     section = installation
+    section = security considerations
     section = /support|bugs/
     section = source
     section = /authors?/
@@ -220,11 +222,13 @@ has sections => (
             map { s/_/ /gr }
               qw(
               name
+              status
               synopsis
               description
               recent_changes
               requirements
               installation
+              security_considerations
               /support|bugs/
               source
               /authors?/

@@ -4,6 +4,9 @@ Release history for {{ $dist->name }}:
   [Enhancements]
   - The STATUS and SECURITY CONSIDERATIONS sections are included by default.
 
+  [Documentation]
+  - Updated the SUPPORT section to clarify the minimum Perl version.
+
   [Tests]
   - Add more author tests.
 

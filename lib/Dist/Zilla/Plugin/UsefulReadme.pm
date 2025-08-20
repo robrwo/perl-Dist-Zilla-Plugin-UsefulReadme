@@ -638,8 +638,7 @@ L<Dist::Zilla::Plugin::ReadmeAnyFromPod>
 
 Only the latest version of this module will be supported.
 
-This module requires Perl v5.20 or later.  Future releases may only support Perl versions released in the last ten
-years.
+This module requires Perl v5.20 or later, based on the minimum Perl supported by L<Dist::Zilla>.
 
 =head2 Reporting Bugs and Submitting Feature Requests
 

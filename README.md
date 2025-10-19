@@ -36,7 +36,7 @@ This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A
 
 # RECENT CHANGES
 
-Changes for version v0.5.2 (2025-08-20)
+Changes for version v0.5.2 (2025-10-19)
 
 - Enhancements
     - The STATUS and SECURITY CONSIDERATIONS sections are included by default.
@@ -125,8 +125,8 @@ then see `SECURITY.md` for instructions how to report security vulnerabilities.
 
 # SOURCE
 
-The development version is on github at [https://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme](https://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme)
-and may be cloned from [git://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme.git](git://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme.git)
+The development version is on github at ["robrwo/perl-Dist-Zilla-Plugin-UsefulReadme" in github.com](https://metacpan.org/pod/github.com#robrwo-perl-Dist-Zilla-Plugin-UsefulReadme)
+and may be cloned from ["robrwo/perl-Dist-Zilla-Plugin-UsefulReadme.git" in github.com](https://metacpan.org/pod/github.com#robrwo-perl-Dist-Zilla-Plugin-UsefulReadme.git)
 
 # AUTHOR
 

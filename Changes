@@ -1,6 +1,8 @@
 Release history for {{ $dist->name }}:
 
 {{$NEXT}}
+
+v0.5.2    2025-10-19 12:48:46+01:00 Europe/London
   [Enhancements]
   - The STATUS and SECURITY CONSIDERATIONS sections are included by default.
 

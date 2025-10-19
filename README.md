@@ -125,8 +125,8 @@ then see `SECURITY.md` for instructions how to report security vulnerabilities.
 
 # SOURCE
 
-The development version is on github at ["robrwo/perl-Dist-Zilla-Plugin-UsefulReadme" in github.com](https://metacpan.org/pod/github.com#robrwo-perl-Dist-Zilla-Plugin-UsefulReadme)
-and may be cloned from ["robrwo/perl-Dist-Zilla-Plugin-UsefulReadme.git" in github.com](https://metacpan.org/pod/github.com#robrwo-perl-Dist-Zilla-Plugin-UsefulReadme.git)
+The development version is on github at [https://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme](https://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme)
+and may be cloned from [https://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme.git](https://github.com/robrwo/perl-Dist-Zilla-Plugin-UsefulReadme.git)
 
 # AUTHOR
 

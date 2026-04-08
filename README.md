@@ -40,6 +40,8 @@ Changes for version v0.5.3 (2026-04-08)
 
 - Documentation
     - Updated copyright year.
+- Other
+    - Added doap.xml metadata to the distribution.
 
 See the `Changes` file for more details.
 

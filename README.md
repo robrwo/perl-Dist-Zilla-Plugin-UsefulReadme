@@ -36,14 +36,10 @@ This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A
 
 # RECENT CHANGES
 
-Changes for version v0.5.2 (2025-10-19)
+Changes for version v0.5.3 (2026-04-08)
 
-- Enhancements
-    - The STATUS and SECURITY CONSIDERATIONS sections are included by default.
 - Documentation
-    - Updated the SUPPORT section to clarify the minimum Perl version.
-- Tests
-    - Add more author tests.
+    - Updated copyright year.
 
 See the `Changes` file for more details.
 
@@ -137,7 +133,7 @@ Some of this code was adapted from similar code in [Dist::Zilla::Plugin::ReadmeA
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2025 by Robert Rothenberg.
+This software is copyright (c) 2025-2026 by Robert Rothenberg.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

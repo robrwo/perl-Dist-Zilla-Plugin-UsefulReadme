@@ -4,9 +4,9 @@ Release history for {{ $dist->name }}:
   [Documentation]
   - Updated copyright year.
 
-  [Toolchain]
   - Added doap.xml metadata to the distribution.
 
+  [Toolchain]
   - Added automation-policy.json to the distribution.
 
   - Stopped signing distributions with Module::Signature.

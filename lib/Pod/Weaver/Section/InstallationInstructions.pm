@@ -21,7 +21,7 @@ use experimental qw( lexical_subs postderef signatures );
 
 use namespace::autoclean;
 
-our $VERSION = 'v0.5.3';
+our $VERSION = 'v0.5.4';
 
 =head1 SYNOPSIS
 

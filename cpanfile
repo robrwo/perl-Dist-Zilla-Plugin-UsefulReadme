@@ -57,6 +57,7 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "Dist::AutomationPolicy" => "v0.2.0";
   requires "File::Spec" => "0";
   requires "IO::Handle" => "0";
   requires "IPC::Open3" => "0";

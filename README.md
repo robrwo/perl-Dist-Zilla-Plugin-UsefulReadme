@@ -40,9 +40,10 @@ Changes for version v0.5.3 (2026-05-31)
 
 - Documentation
     - Updated copyright year.
-- Other
+- Toolchain
     - Added doap.xml metadata to the distribution.
     - Added automation-policy.json to the distribution.
+    - Stopped signing distributions with Module::Signature.
 
 See the `Changes` file for more details.
 

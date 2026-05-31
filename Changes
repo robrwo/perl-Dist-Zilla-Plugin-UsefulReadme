@@ -6,6 +6,8 @@ Release history for {{ $dist->name }}:
 
   - Added doap.xml metadata to the distribution.
 
+  - Updated author email address.
+
   [Toolchain]
   - Added automation-policy.json to the distribution.
 

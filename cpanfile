@@ -18,7 +18,7 @@ requires "Pod::Weaver::Role::Section" => "0";
 requires "Types::Common" => "0";
 requires "experimental" => "0";
 requires "namespace::autoclean" => "0";
-requires "perl" => "v5.20.0";
+requires "perl" => "v5.24.0";
 recommends "Pod::Weaver" => "4.016";
 recommends "Pod::Weaver::Section::Version" => "0";
 

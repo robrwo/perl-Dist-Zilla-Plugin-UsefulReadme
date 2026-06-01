@@ -2,7 +2,7 @@ package Dist::Zilla::Plugin::UsefulReadme;
 
 # ABSTRACT: generate a README file with the useful bits
 
-use v5.20;
+use v5.24;
 
 use Moose;
 with qw(
@@ -30,7 +30,7 @@ use Pod::Elemental::Transformer::Nester;
 use Pod::Elemental::Selectors;
 use Types::Common qw( ArrayRef Bool CodeRef Enum Maybe NonEmptyStr StrMatch );
 
-use experimental qw( lexical_subs postderef signatures );
+use experimental qw( lexical_subs signatures );
 
 use namespace::autoclean;
 
@@ -638,7 +638,7 @@ L<Dist::Zilla::Plugin::ReadmeAnyFromPod>
 
 Only the latest version of this module will be supported.
 
-This module requires Perl v5.20 or later, based on the minimum Perl supported by L<Dist::Zilla>.
+This module requires Perl v5.24 or later, based on the minimum Perl supported by L<Dist::Zilla>.
 
 =head2 Reporting Bugs and Submitting Feature Requests
 

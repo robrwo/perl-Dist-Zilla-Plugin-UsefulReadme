@@ -2,7 +2,7 @@ package Pod::Weaver::Section::Requirements;
 
 # ABSTRACT: generate POD with the runtime requirements
 
-use v5.20;
+use v5.24;
 
 use Moose;
 with 'Pod::Weaver::Role::Section';
@@ -16,7 +16,7 @@ use Pod::Elemental::Element::Pod5::Ordinary;
 use Pod::Elemental::Element::Pod5::Region;
 use Types::Common qw( Bool NonEmptySimpleStr SimpleStr );
 
-use experimental qw( lexical_subs postderef signatures );
+use experimental qw( lexical_subs signatures );
 
 use namespace::autoclean;
 
@@ -235,7 +235,7 @@ L<Pod::Weaver::Section::Requires>
 
 Only the latest version of this module will be supported.
 
-This module requires Perl v5.20 or later.  Future releases may only support Perl versions released in the last ten
+This module requires Perl v5.24 or later.  Future releases may only support Perl versions released in the last ten
 years.
 
 =head2 Reporting Bugs and Submitting Feature Requests

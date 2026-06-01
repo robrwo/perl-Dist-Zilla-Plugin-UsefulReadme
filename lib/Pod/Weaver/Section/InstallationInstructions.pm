@@ -2,7 +2,7 @@ package Pod::Weaver::Section::InstallationInstructions;
 
 # ABSTRACT: generate POD with installation instructions
 
-use v5.20;
+use v5.24;
 
 use Moose;
 with 'Pod::Weaver::Role::Section';
@@ -17,7 +17,7 @@ use Pod::Elemental::Element::Pod5::Region;
 use Pod::Elemental::Element::Pod5::Verbatim;
 use Types::Common qw( Bool Enum NonEmptySimpleStr SimpleStr );
 
-use experimental qw( lexical_subs postderef signatures );
+use experimental qw( lexical_subs signatures );
 
 use namespace::autoclean;
 
@@ -286,7 +286,7 @@ L<Pod::Weaver::Section::Installation>
 
 Only the latest version of this module will be supported.
 
-This module requires Perl v5.20 or later.  Future releases may only support Perl versions released in the last ten
+This module requires Perl v5.24 or later.  Future releases may only support Perl versions released in the last ten
 years.
 
 =head2 Reporting Bugs and Submitting Feature Requests

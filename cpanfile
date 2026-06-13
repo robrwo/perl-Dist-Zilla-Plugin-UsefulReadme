@@ -23,8 +23,8 @@ recommends "Pod::Weaver" => "4.016";
 recommends "Pod::Weaver::Section::Version" => "0";
 
 on 'build' => sub {
-  requires "ExtUtils::MakeMaker" => "7.22";
-  requires "Module::Metadata" => "1.000015";
+  recommends "ExtUtils::MakeMaker" => "7.22";
+  recommends "Module::Metadata" => "1.000015";
 };
 
 on 'test' => sub {

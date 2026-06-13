@@ -36,12 +36,14 @@ This was written as a successor to [Pod::Readme](https://metacpan.org/pod/Pod%3A
 
 # RECENT CHANGES
 
-Changes for version v0.6.0 (2026-06-01)
+Changes for version v0.6.0 (2026-06-13)
 
 - Incompatabilities
     - Bumped minimum Perl version to v5.24.
 - Enhancements
     - Use newer Perl syntax features.
+- Toolchain
+    - Sign distribution with SigStore.
 
 See the `Changes` file for more details.
 
